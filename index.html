@@ -6,10 +6,7 @@
 <title>Zareni Wellness Content Engine</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --sage:#8fa77a;--sage-light:#B7C6A3;--sage-deep:#6F8F6B;--sage-dark:#5a7a56;
-  --olive:#4E4B3A;--cream:#F9F7F2;--white:#FFFFFF;--border:#ddd9ce;
-}
+:root{--sage:#8fa77a;--sage-light:#B7C6A3;--sage-deep:#6F8F6B;--sage-dark:#5a7a56;--olive:#4E4B3A;--cream:#F9F7F2;--white:#FFFFFF;--border:#ddd9ce;}
 body{font-family:'Trebuchet MS',sans-serif;color:var(--olive);background:var(--sage);min-height:100vh}
 .app{display:flex;flex-direction:column;min-height:100vh}
 .header{background:var(--sage-dark);padding:13px 24px;display:flex;align-items:center;gap:12px;border-bottom:2px solid var(--sage-deep)}
@@ -30,7 +27,6 @@ body{font-family:'Trebuchet MS',sans-serif;color:var(--olive);background:var(--s
 .card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px}
 .card:last-child{margin-bottom:0}
 .card-title{font-size:11px;font-weight:700;color:var(--sage-deep);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #eee9e0;display:flex;align-items:center;justify-content:space-between}
-.cream-card{background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:18px}
 .lbl{display:block;font-size:11px;font-weight:700;color:var(--olive);margin-bottom:4px;margin-top:12px;text-transform:uppercase;letter-spacing:0.3px}
 .lbl:first-child{margin-top:0}
 input[type=text],input[type=password],textarea,select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:'Trebuchet MS',sans-serif;color:var(--olive);background:var(--white);outline:none;transition:border-color 0.15s}
@@ -90,13 +86,10 @@ textarea{resize:vertical;line-height:1.6}
 <body>
 <div class="app">
 <div class="header">
-  <div class="logo">
-    <svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 008 20C19 20 22 3 22 3c-1 2-8 5.5-8 5.5s-1-2.5-5.5-2.5C5 6 3 8 3 8s7-2 14 0z"/></svg>
-  </div>
+  <div class="logo"><svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 008 20C19 20 22 3 22 3c-1 2-8 5.5-8 5.5s-1-2.5-5.5-2.5C5 6 3 8 3 8s7-2 14 0z"/></svg></div>
   <div class="app-title">Zareni Wellness Content Engine</div>
-  <div class="app-sub">v2.0 &nbsp;·&nbsp; Claude Sonnet</div>
+  <div class="app-sub">v2.0 &nbsp;&middot;&nbsp; Claude Sonnet</div>
 </div>
-
 <div class="tabs">
   <div class="tab active" onclick="switchTab('generator',this)">Generator</div>
   <div class="tab" onclick="switchTab('batch',this)">Batch <span class="tab-badge" id="batch-count">0</span></div>
@@ -106,10 +99,8 @@ textarea{resize:vertical;line-height:1.6}
   <div class="tab" onclick="switchTab('knowledge',this)">Knowledge Base</div>
   <div class="tab" onclick="switchTab('settings',this)">Settings</div>
 </div>
-
 <div class="main">
 
-<!-- GENERATOR -->
 <div id="p-generator" class="panel active">
   <div class="grid2">
     <div>
@@ -142,7 +133,7 @@ textarea{resize:vertical;line-height:1.6}
         </div>
         <div id="wrap-urls" style="display:none">
           <span class="lbl">Published Post URLs (one per line)</span>
-          <textarea id="f-urls" rows="4" placeholder="https://zareniwellness.com/post-one&#10;https://zareniwellness.com/post-two"></textarea>
+          <textarea id="f-urls" rows="4" placeholder="https://zareniwellness.com/post-one"></textarea>
         </div>
         <div style="margin-top:12px">
           <span class="lbl">Pillar Knowledge Doc (Drive ID)</span>
@@ -159,7 +150,7 @@ textarea{resize:vertical;line-height:1.6}
       <div id="gen-status" class="status s-idle"><span>Ready to generate</span></div>
       <div class="card">
         <div class="card-title">Output <button class="btn btn-outline btn-sm" onclick="copyOut()" style="margin-left:auto">Copy All</button></div>
-        <div id="gen-out" class="output-box"><span class="placeholder">Select a workflow, fill in the inputs, and click Generate. The full post, Yoast SEO block, and medical disclaimer will appear here.</span></div>
+        <div id="gen-out" class="output-box"><span class="placeholder">Select a workflow, fill in the inputs, and click Generate.</span></div>
         <div id="seo-panel" style="display:none">
           <div class="seo-box">
             <div class="seo-title">Yoast SEO Block</div>
@@ -175,7 +166,6 @@ textarea{resize:vertical;line-height:1.6}
   </div>
 </div>
 
-<!-- BATCH -->
 <div id="p-batch" class="panel">
   <div class="card">
     <div class="card-title">Batch Configuration</div>
@@ -213,7 +203,6 @@ textarea{resize:vertical;line-height:1.6}
   </div>
 </div>
 
-<!-- KEYWORDS -->
 <div id="p-keywords" class="panel">
   <div class="grid2">
     <div class="card">
@@ -245,7 +234,6 @@ textarea{resize:vertical;line-height:1.6}
   </div>
 </div>
 
-<!-- COMPETITORS -->
 <div id="p-competitors" class="panel">
   <div class="notice">Competitor analysis surfaces content gaps where Zareni Wellness is not yet ranking.</div>
   <div class="grid2">
@@ -281,7 +269,6 @@ textarea{resize:vertical;line-height:1.6}
   </div>
 </div>
 
-<!-- RULES -->
 <div id="p-rules" class="panel">
   <div class="grid2-eq">
     <div class="card">
@@ -347,7 +334,6 @@ textarea{resize:vertical;line-height:1.6}
   </div>
 </div>
 
-<!-- KNOWLEDGE BASE -->
 <div id="p-knowledge" class="panel">
   <div class="notice">All knowledge base content is injected into every API call automatically. Core documents are always pulled. Pillar documents are selected per run in the Generator tab.</div>
   <div class="grid2-eq">
@@ -390,7 +376,6 @@ textarea{resize:vertical;line-height:1.6}
   </div>
 </div>
 
-<!-- SETTINGS -->
 <div id="p-settings" class="panel">
   <div class="settings-grid">
     <div class="card">
@@ -438,9 +423,8 @@ textarea{resize:vertical;line-height:1.6}
 
 </div>
 </div>
-
 <script>
-const DEFAULT_BC = `ZARENI WELLNESS MASTER BRAND DOCUMENT
+const DEFAULT_BC=`ZARENI WELLNESS MASTER BRAND DOCUMENT
 
 BRAND IDENTITY: Zareni Wellness is the most comprehensive root cause library for complex and chronic illness ever built for the people conventional medicine has failed. Founded by Amber Fox, Board Certified Holistic Health Practitioner and bio resonance specialist. Serves adults and families navigating nervous system dysregulation, PANS/PANDAS, MCAS, mold illness, Epstein Barr Virus, brain fog, chronic fatigue, and related conditions.
 
@@ -466,30 +450,208 @@ CREDENTIALS: Amber Fox, LCPH, PHom, CHHP, HP Specialist, AADP, Bio Resonance Spe
 
 MEDICAL DISCLAIMER: This content is for informational purposes only and is not intended to diagnose, treat, cure, or prevent any condition or disease. Bio resonance scanning is a complementary wellness tool and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider before making changes to your health routine.`;
 
-const WF_RULES = {
-  net_new:['Generates a brand new post from scratch. No existing content needed.','Inputs: Post Title, Focus Keyword, Pillar.','WordPress action: Create Post (new post, no Post ID needed).','Focus keyword must appear in first 200 words.','Minimum 2000 words. Every sentence earns its place.','Three internal links: first to pillar cornerstone, two to most relevant published posts.','One external link to a credible source.','Kit opt-in shortcode placed once mid post after action steps section.','Lead magnet mention relevant to the pillar before closing paragraph.','Toolkit mention natural and unforced in action steps section.','Bio resonance scan session mention toward end as personalized next step.','Yoast SEO block output as completely separate section after post.','Medical disclaimer in italics always closes the post.','Flag treatment claims, unpublished internal links, topic cannibalization at top of output.'],
-  draft_opt:['Optimizes an existing unpublished draft sitting in WordPress.','Inputs: Post Content, Focus Keyword, Post Title, Pillar, Post ID.','WordPress action: Update Post using the Post ID provided.','Removes all dashes, replaces healing and coping, removes outdated service CTAs.','Replaces any free consultation or discovery call mention with bio resonance scan session.','Expands thin sections to meet 2000 word minimum naturally in Amber\'s voice.','Fixes any bold body text by removing bold formatting.','Removes you are not broken constructions.','Removes AI-sounding phrases and rewrites them.','Kit opt-in shortcode placed once mid post after action steps.','Flags outdated service references that were replaced at top of output.'],
-  pp_cornerstone:['Optimizes the PANS/PANDAS cornerstone post.','Inputs: Post Content, Focus Keyword, Post Title, Pillar, Post ID.','WordPress action: Update Post using the Post ID.','This is a long-form comprehensive guide, not a resource page.','PANS/PANDAS must always be written with the slash everywhere it appears.','Links to PANS/PANDAS Family Guide toolkit throughout.','Kit opt-in placed once mid post after action steps.','Bio resonance scan session toward end.','Medical disclaimer in italics closes post.'],
-  pp_discovery:['Optimizes PANS/PANDAS discovery posts.','Inputs: Post Content, Focus Keyword, Post Title, Pillar, Post ID.','WordPress action: Update Post using the Post ID.','DISCOVERY POSTS NEVER NAME THE CONDITION. Symptoms, patterns, lived experience only.','If PANS/PANDAS or any diagnosis appears in body: flag prominently and suggest reframe.','First internal link always to PANS/PANDAS cornerstone post.','No condition name anywhere in the body copy including resource mentions.','Lead magnet: From Overwhelmed to Action free guide.','Flags discovery post violations at top of output.'],
-  pp_published:['Optimizes published PANS/PANDAS pillar posts.','Inputs: Post Content, Focus Keyword, Post Title, Pillar, Post ID.','WordPress action: Update Post using the Post ID.','PANS/PANDAS may be named throughout the body. Do not flag or remove any mention.','PANS/PANDAS always written with the slash. Never PANS PANDAS without slash.','First internal link always to PANS/PANDAS cornerstone post.','Lead magnet: From Overwhelmed to Action free guide.','Toolkit: PANS/PANDAS Family Guide.'],
-  pp_resource:['Optimizes the PANS/PANDAS resource page.','This is a curated navigation and conversion page, NOT a blog post.','Inputs: Post Content, Focus Keyword, Post Title, Pillar, Post ID, Published Post URLs.','WordPress action: Update Post using the Post ID.','Published Post URLs is a multi-line list of all published pillar posts.','Present posts in exact order provided. Do not reorder.','Group into logical journey sections with H2 headings reflecting reader progression.','Kit opt-in placed at approximately halfway point of post list.','PANS/PANDAS Family Guide mention is hard and direct, not soft.','Bio resonance scan session framed as concrete action step.','This workflow does not appear in batch mode.'],
-  lead_magnet:['Generates full lead magnet PDF guide content.','Inputs: Post Title (guide title), Focus Keyword (topic), Pillar.','WordPress action: Create Post as draft.','Follows the Zareni Wellness Lead Magnet Template: 8 pages.','Pages: Cover, Orientation, Emotional Normalization, First Steps, Support Strategies, Symptom Tracker, Looking Ahead, Closing Letter.','Closing letter from Amber is first person, warm, honest, ends with Rooting for you.','All brand rules apply fully.'],
-  lead_magnet_lp:['Generates a lead magnet landing page.','Inputs: Post Title (lead magnet name), Focus Keyword (target audience), Pillar.','WordPress action: Create Post as draft.','Follows the Zareni Wellness Lead Magnet Landing Page Template.','Sections: Hero, Pain Agitation, Bridge, Inside the Guide, About Amber, Trust Bar, Testimonial, Closing Opt-In.','Bridge section includes Amber origin story and What I Lived vs What This Guide Gives You cards.','About Amber section includes credentials and bio resonance discovery.','All brand rules apply fully.']
+const WF_RULES={
+net_new:["Generates a brand new post from scratch. No existing content needed.","Inputs: Post Title, Focus Keyword, Pillar.","WordPress action: Create Post (new post, no Post ID needed).","Focus keyword must appear in first 200 words.","Minimum 2000 words. Every sentence earns its place.","Three internal links: first to pillar cornerstone, two to most relevant published posts.","One external link to a credible source.","Kit opt-in shortcode placed once mid post after action steps section.","Lead magnet mention relevant to the pillar before closing paragraph.","Toolkit mention natural and unforced in action steps section.","Bio resonance scan session mention toward end as personalized next step.","Yoast SEO block output as completely separate section after post.","Medical disclaimer in italics always closes the post.","Flag treatment claims, unpublished internal links, topic cannibalization at top of output."],
+draft_opt:["Optimizes an existing unpublished draft sitting in WordPress.","Inputs: Post Content, Focus Keyword, Post Title, Pillar, Post ID.","WordPress action: Update Post using the Post ID provided.","Removes all dashes, replaces healing and coping, removes outdated service CTAs.","Replaces any free consultation or discovery call mention with bio resonance scan session.","Expands thin sections to meet 2000 word minimum naturally in Amber's voice.","Fixes any bold body text by removing bold formatting.","Removes you are not broken constructions.","Removes AI-sounding phrases and rewrites them.","Kit opt-in shortcode placed once mid post after action steps.","Flags outdated service references that were replaced at top of output."],
+pp_cornerstone:["Optimizes the PANS/PANDAS cornerstone post.","Inputs: Post Content, Focus Keyword, Post Title, Pillar, Post ID.","WordPress action: Update Post using the Post ID.","This is a long-form comprehensive guide, not a resource page.","PANS/PANDAS must always be written with the slash everywhere it appears.","Links to PANS/PANDAS Family Guide toolkit throughout.","Kit opt-in placed once mid post after action steps.","Bio resonance scan session toward end.","Medical disclaimer in italics closes post."],
+pp_discovery:["Optimizes PANS/PANDAS discovery posts.","Inputs: Post Content, Focus Keyword, Post Title, Pillar, Post ID.","WordPress action: Update Post using the Post ID.","DISCOVERY POSTS NEVER NAME THE CONDITION. Symptoms, patterns, lived experience only.","If PANS/PANDAS or any diagnosis appears in body: flag prominently and suggest reframe.","First internal link always to PANS/PANDAS cornerstone post.","No condition name anywhere in the body copy including resource mentions.","Lead magnet: From Overwhelmed to Action free guide.","Flags discovery post violations at top of output."],
+pp_published:["Optimizes published PANS/PANDAS pillar posts.","Inputs: Post Content, Focus Keyword, Post Title, Pillar, Post ID.","WordPress action: Update Post using the Post ID.","PANS/PANDAS may be named throughout the body. Do not flag or remove any mention.","PANS/PANDAS always written with the slash. Never PANS PANDAS without slash.","First internal link always to PANS/PANDAS cornerstone post.","Lead magnet: From Overwhelmed to Action free guide.","Toolkit: PANS/PANDAS Family Guide."],
+pp_resource:["Optimizes the PANS/PANDAS resource page.","This is a curated navigation and conversion page, NOT a blog post.","Inputs: Post Content, Focus Keyword, Post Title, Pillar, Post ID, Published Post URLs.","WordPress action: Update Post using the Post ID.","Published Post URLs is a multi-line list of all published pillar posts.","Present posts in exact order provided. Do not reorder.","Group into logical journey sections with H2 headings reflecting reader progression.","Kit opt-in placed at approximately halfway point of post list.","PANS/PANDAS Family Guide mention is hard and direct, not soft.","Bio resonance scan session framed as concrete action step.","This workflow does not appear in batch mode."],
+lead_magnet:["Generates full lead magnet PDF guide content.","Inputs: Post Title (guide title), Focus Keyword (topic), Pillar.","WordPress action: Create Post as draft.","Follows the Zareni Wellness Lead Magnet Template: 8 pages.","Pages: Cover, Orientation, Emotional Normalization, First Steps, Support Strategies, Symptom Tracker, Looking Ahead, Closing Letter.","Closing letter from Amber is first person, warm, honest, ends with Rooting for you.","All brand rules apply fully."],
+lead_magnet_lp:["Generates a lead magnet landing page.","Inputs: Post Title (lead magnet name), Focus Keyword (target audience), Pillar.","WordPress action: Create Post as draft.","Follows the Zareni Wellness Lead Magnet Landing Page Template.","Sections: Hero, Pain Agitation, Bridge, Inside the Guide, About Amber, Trust Bar, Testimonial, Closing Opt-In.","Bridge section includes Amber origin story and What I Lived vs What This Guide Gives You cards.","About Amber section includes credentials and bio resonance discovery.","All brand rules apply fully."]
 };
 
-const SYSTEM_PROMPTS = {
-  net_new:`You are an expert content creator for Zareni Wellness, a root cause wellness brand for people with complex and chronic illness who have been failed by conventional medicine. You write with warmth, directness, and clinical grounding. No New Age language. No dashes of any kind. No bold body text. No healing or coping. Structure and function language only. Contractions throughout. Address reader as you. Kitchen table over tea tone always.\n\nGenerate a brand new blog post from scratch. Return a fully written publish-ready post meeting every Zareni Wellness brand standard.\n\nOpen with a hook that is impossible to look away from. Interweave the emotional thread throughout. Close the hook at the end by returning to where the reader started.\n\nWeave Amber's origin story naturally into the post. Never repeat the same detail or phrasing twice in one post. Each reference surfaces a different dimension.\n\nInclude exactly three internal links. First always to the pillar cornerstone post. Other two to the most topically relevant published posts in the same pillar.\n\nInclude exactly one external link to a credible source directly relevant to this specific topic.\n\nAfter the practical action steps section insert the Kit opt-in on its own line with blank line above and below:\n[convertkit form=9245579]\n\nAdd bio resonance scan session mention toward end: https://shop.zareniwellness.com/products/bio-resonance-scan-session\n\nAdd lead magnet mention relevant to the pillar before closing paragraph.\n\nAdd toolkit mention for the pillar. Natural, never a pitch.\n\nAll H2 main sections, H3 subsections. Never H1. Headings as questions or promises.\n\nFocus keyword in first 200 words. Minimum 2000 words.\n\nYoast Readability: transition words 30%+ sentences, passive voice under 10%, subheadings every 300 words, paragraphs max 150 words.\n\nOutput post first. Then completely separate Yoast SEO block:\nYoast Focus Keyphrase: [exact keyword]\nYoast SEO Title: [title | Zareni Wellness] under 60 characters\nYoast Meta Description: [150-160 characters includes keyword speaks to reader]\nYoast Slug: [short keyword-led no special characters]\nYoast Cornerstone Content: No\nYoast Canonical URL: leave blank\n\nEnd with medical disclaimer in italics.\n\nFlag at top before post: treatment claims, unpublished internal links, topic cannibalization.`,
-  draft_opt:`You are an expert content optimizer for Zareni Wellness. Optimize the existing draft blog post provided. Return fully optimized publish-ready version meeting every Zareni Wellness brand standard.\n\nNo New Age language. No dashes of any kind. No bold body text. No healing or coping. Structure and function language only. Contractions throughout. Address reader as you. Kitchen table over tea tone always.\n\nRemove every dash. Replace healing and coping. Remove free consultation or discovery call CTAs and replace with bio resonance scan session mention. Remove you are not broken constructions. Remove AI-sounding phrases. Fix bold body text.\n\nOpen with hook. Close hook at end. Weave Amber's origin story naturally, different dimension each reference.\n\nExpand thin sections to meet 2000 word minimum in Amber's voice. Never pad.\n\nThree internal links. First to pillar cornerstone. Two to most relevant published posts in same pillar.\n\nOne external link to credible source.\n\nKit opt-in once mid post after action steps:\n[convertkit form=9245579]\n\nBio resonance scan session toward end: https://shop.zareniwellness.com/products/bio-resonance-scan-session\n\nLead magnet relevant to pillar before closing.\n\nToolkit mention for pillar, natural.\n\nAll H2 main, H3 sub. Never H1. Headings as questions or promises.\n\nFocus keyword in first 200 words. Minimum 2000 words.\n\nOutput optimized post first. Then separate Yoast SEO block with all fields. End with medical disclaimer in italics.\n\nFlag at top: treatment claims, unpublished links, cannibalization, outdated service references replaced.`,
-  pp_cornerstone:`You are an expert content optimizer for Zareni Wellness. Optimize this PANS/PANDAS cornerstone post. This is a long-form comprehensive guide, not a resource page.\n\nNo dashes. Replace healing and coping. Remove you are not broken. Fix bold body text. No H1. H2 main sections, H3 subsections. PANS/PANDAS always written with the slash.\n\nOpen with hook. Close hook at end. Weave Amber's origin story naturally.\n\nThree internal links. First to PANS/PANDAS cornerstone: https://zareniwellness.com/pans-pandas-complete-parent-guide/\n\nOne external link to credible source.\n\nKit opt-in once mid post after action steps:\n[convertkit form=9245579]\n\nPANS/PANDAS Family Guide mention: https://shop.zareniwellness.com/products/pans-pandas-family-guide\n\nBio resonance scan session toward end: https://shop.zareniwellness.com/products/bio-resonance-scan-session\n\nLead magnet before closing: https://zareniwellness.com/pans-pandas-free-guide\n\nAll H2 main, H3 sub. Headings as questions or promises. Focus keyword in first 200 words. Minimum 2000 words.\n\nOutput optimized post first. Separate Yoast SEO block. Medical disclaimer in italics.\n\nFlag: treatment claims, unpublished links, cannibalization.`,
-  pp_discovery:`You are an expert content optimizer for Zareni Wellness. Optimize this PANS/PANDAS Discovery Post.\n\nNo dashes. Replace healing and coping. Remove you are not broken. Fix bold body text. No H1.\n\nDISCOVERY POST RULE: Never name the condition anywhere in the body. Symptoms, patterns, lived experience only. If PANS/PANDAS or any diagnosis appears in body, flag it prominently at top and suggest reframe.\n\nOpen with hook. Close hook at end. Weave Amber's origin story naturally.\n\nThree internal links. First always to PANS/PANDAS cornerstone: https://zareniwellness.com/pans-pandas-complete-parent-guide/\n\nOne external link to credible source.\n\nAdd natural light PANS/PANDAS Family Guide mention without naming the condition: https://shop.zareniwellness.com/products/pans-pandas-family-guide\n\nKit opt-in once mid post after action steps:\n[convertkit form=9245579]\n\nBio resonance scan session toward end: https://shop.zareniwellness.com/products/bio-resonance-scan-session\n\nLead magnet before closing: https://zareniwellness.com/pans-pandas-free-guide\n\nAll H2 main, H3 sub. Headings as questions or promises. Focus keyword in first 200 words. Minimum 2000 words.\n\nOutput optimized post first. Separate Yoast SEO block. Medical disclaimer in italics.\n\nFlag at top: treatment claims, topic cannibalization, any discovery post violations.`,
-  pp_published:`You are an expert content optimizer for Zareni Wellness. Optimize this published PANS/PANDAS pillar post.\n\nNo dashes. Replace healing and coping. Remove you are not broken. Fix bold body text. No H1.\n\nPANS/PANDAS may be named throughout the body. Do not flag or remove any mention. Always written with the slash. Never PANS PANDAS without slash.\n\nOpen with hook. Close hook at end. Weave Amber's origin story naturally.\n\nThree internal links. First always to PANS/PANDAS cornerstone: https://zareniwellness.com/pans-pandas-complete-parent-guide/\n\nOne external link to credible source.\n\nAdd natural PANS/PANDAS Family Guide mention: https://shop.zareniwellness.com/products/pans-pandas-family-guide\n\nKit opt-in once mid post after action steps:\n[convertkit form=9245579]\n\nBio resonance scan session toward end: https://shop.zareniwellness.com/products/bio-resonance-scan-session\n\nLead magnet before closing: https://zareniwellness.com/pans-pandas-free-guide\n\nAll H2 main, H3 sub. Headings as questions or promises. Focus keyword in first 200 words. Minimum 2000 words.\n\nOutput optimized post first. Separate Yoast SEO block. Medical disclaimer in italics.\n\nFlag at top: treatment claims, unpublished internal links, topic cannibalization.`,
-  pp_resource:`You are an expert content optimizer for Zareni Wellness. Optimize the PANS/PANDAS resource page. This is a curated navigation and conversion page, not a blog post.\n\nNo dashes. Replace healing and coping. Remove you are not broken. Fix bold body text. No H1. H2 sections, H3 subsections. PANS/PANDAS always with slash.\n\nStructure in this exact order:\n1. Warm opening 2-3 sentences for parent who just arrived after weeks of searching.\n2. Cornerstone post section. Link: https://zareniwellness.com/pans-pandas-complete-parent-guide/\n3. Published pillar posts in exact order provided. Journey sections H2 headings. 1-2 sentence description per post in natural anchor text.\n4. Kit opt-in at approximately halfway point: [convertkit form=9245579] own line blank lines above below.\n5. Hard direct PANS/PANDAS Family Guide mention, not soft. Link: https://shop.zareniwellness.com/products/pans-pandas-family-guide\n6. Bio resonance scan session as concrete action step. Link: https://shop.zareniwellness.com/products/bio-resonance-scan-session\n7. Warm closing 2-3 sentences.\n\nMedical disclaimer in italics.\n\nSeparate Yoast SEO block. Flag treatment claims, unpublished post URLs.`,
-  lead_magnet:`You are an expert content creator for Zareni Wellness. Create a full lead magnet PDF guide following the Lead Magnet Template. All brand rules apply: no dashes, no bold body text, no healing or coping, no you are not broken, no woo woo language, structure and function language only, contractions throughout, address reader as you.\n\nLead Magnet Template Structure:\nCOVER: Guide title action oriented. Subtitle 1 sentence. Author name and credentials.\nPAGE 2 ORIENTATION: Section headline. Intro 2-3 sentences. For Children column 3-4 paragraphs. For Parents column 3-4 paragraphs.\nPAGE 3 EMOTIONAL NORMALIZATION: Relief, Fear, Grief, Exhaustion each with headline and 3-4 sentences normalizing the feeling.\nPAGE 4 FIRST STEPS: Steps 1-5 each with title and 2-3 sentences.\nPAGE 5 SUPPORT STRATEGIES: Strategies 1-3 each with title and 3-5 bullet points.\nPAGE 6 SYMPTOM TRACKER: 8-10 symptoms with descriptor, rating scale, footer note.\nPAGE 7 LOOKING AHEAD: Week One, Weeks Two and Three, Week Four and Beyond, Note on Road Ahead.\nPAGE 8 CLOSING: Personal letter from Amber 4-5 paragraphs first person warm honest ends with Rooting for you. Credentials and website.\n\nEnd with medical disclaimer in italics.`,
-  lead_magnet_lp:`You are an expert content creator for Zareni Wellness. Create a lead magnet landing page following the Lead Magnet Landing Page Template. All brand rules apply.\n\nTemplate Structure:\nHERO: Eyebrow 2-4 words all caps. Headline one sentence reader focused. CTA Button Text.\nPAIN AGITATION: Section headline. 4 pain points each with eyebrow label, italic subheadline, body 2-3 sentences. Closing line soft pivot toward hope. CTA Button Text.\nBRIDGE: Eyebrow. Headline Amber origin story hook. Body 2-3 sentences. Left card WHAT I LIVED 3 paragraphs Amber first person. Right card WHAT THIS GUIDE GIVES YOU 3 paragraphs reader second person. Italic closing line. Final line.\nINSIDE THE GUIDE: Eyebrow. Headline. Intro sentence. Sections 01-04 with title and 2-3 sentence description.\nABOUT AMBER: Eyebrow. Headline. Body paragraph 1 credentials and origin story. Body paragraph 2 who she helps. Credentials line. CTA Button Text.\nTRUST BAR: Six credential items with bold label and short subtitle.\nTESTIMONIAL: Quote. Name. Label.\nCLOSING OPT-IN: Eyebrow. Short benefit driven headline. Body 2-3 sentences. CTA Button Text.\n\nEnd with medical disclaimer in italics.`
+const SYSTEM_PROMPTS={
+net_new:`You are an expert content creator for Zareni Wellness, a root cause wellness brand for people with complex and chronic illness who have been failed by conventional medicine. You write with warmth, directness, and clinical grounding. No New Age language. No dashes of any kind. No bold body text. No healing or coping. Structure and function language only. Contractions throughout. Address reader as you. Kitchen table over tea tone always.
+
+Generate a brand new blog post from scratch. Return a fully written publish-ready post meeting every Zareni Wellness brand standard.
+
+Open with a hook that is impossible to look away from. Interweave the emotional thread throughout. Close the hook at the end by returning to where the reader started.
+
+Weave Amber's origin story naturally into the post. Never repeat the same detail or phrasing twice in one post. Each reference surfaces a different dimension.
+
+Include exactly three internal links. First always to the pillar cornerstone post. Other two to the most topically relevant published posts in the same pillar.
+
+Include exactly one external link to a credible source directly relevant to this specific topic.
+
+After the practical action steps section insert the Kit opt-in on its own line with blank line above and below:
+[convertkit form=9245579]
+
+Add bio resonance scan session mention toward end: https://shop.zareniwellness.com/products/bio-resonance-scan-session
+
+Add lead magnet mention relevant to the pillar before closing paragraph.
+
+Add toolkit mention for the pillar. Natural, never a pitch.
+
+All H2 main sections, H3 subsections. Never H1. Headings as questions or promises.
+
+Focus keyword in first 200 words. Minimum 2000 words.
+
+Yoast Readability: transition words 30%+ sentences, passive voice under 10%, subheadings every 300 words, paragraphs max 150 words.
+
+Output post first. Then completely separate Yoast SEO block:
+Yoast Focus Keyphrase: [exact keyword]
+Yoast SEO Title: [title | Zareni Wellness] under 60 characters
+Yoast Meta Description: [150-160 characters includes keyword speaks to reader]
+Yoast Slug: [short keyword-led no special characters]
+Yoast Cornerstone Content: No
+Yoast Canonical URL: leave blank
+
+End with medical disclaimer in italics.
+
+Flag at top before post: treatment claims, unpublished internal links, topic cannibalization.`,
+draft_opt:`You are an expert content optimizer for Zareni Wellness. Optimize the existing draft blog post provided. Return fully optimized publish-ready version meeting every Zareni Wellness brand standard.
+
+No New Age language. No dashes of any kind. No bold body text. No healing or coping. Structure and function language only. Contractions throughout. Address reader as you. Kitchen table over tea tone always.
+
+Remove every dash. Replace healing and coping. Remove free consultation or discovery call CTAs and replace with bio resonance scan session mention. Remove you are not broken constructions. Remove AI-sounding phrases. Fix bold body text.
+
+Open with hook. Close hook at end. Weave Amber's origin story naturally, different dimension each reference.
+
+Expand thin sections to meet 2000 word minimum in Amber's voice. Never pad.
+
+Three internal links. First to pillar cornerstone. Two to most relevant published posts in same pillar.
+
+One external link to credible source.
+
+Kit opt-in once mid post after action steps:
+[convertkit form=9245579]
+
+Bio resonance scan session toward end: https://shop.zareniwellness.com/products/bio-resonance-scan-session
+
+Lead magnet relevant to pillar before closing.
+
+Toolkit mention for pillar, natural.
+
+All H2 main, H3 sub. Never H1. Headings as questions or promises.
+
+Focus keyword in first 200 words. Minimum 2000 words.
+
+Output optimized post first. Then separate Yoast SEO block with all fields. End with medical disclaimer in italics.
+
+Flag at top: treatment claims, unpublished links, cannibalization, outdated service references replaced.`,
+pp_cornerstone:`You are an expert content optimizer for Zareni Wellness. Optimize this PANS/PANDAS cornerstone post. This is a long-form comprehensive guide, not a resource page.
+
+No dashes. Replace healing and coping. Remove you are not broken. Fix bold body text. No H1. H2 main sections, H3 subsections. PANS/PANDAS always written with the slash.
+
+Open with hook. Close hook at end. Weave Amber's origin story naturally.
+
+Three internal links. First to PANS/PANDAS cornerstone: https://zareniwellness.com/pans-pandas-complete-parent-guide/
+
+One external link to credible source.
+
+Kit opt-in once mid post after action steps:
+[convertkit form=9245579]
+
+PANS/PANDAS Family Guide mention: https://shop.zareniwellness.com/products/pans-pandas-family-guide
+
+Bio resonance scan session toward end: https://shop.zareniwellness.com/products/bio-resonance-scan-session
+
+Lead magnet before closing: https://zareniwellness.com/pans-pandas-free-guide
+
+All H2 main, H3 sub. Headings as questions or promises. Focus keyword in first 200 words. Minimum 2000 words.
+
+Output optimized post first. Separate Yoast SEO block. Medical disclaimer in italics.
+
+Flag: treatment claims, unpublished links, cannibalization.`,
+pp_discovery:`You are an expert content optimizer for Zareni Wellness. Optimize this PANS/PANDAS Discovery Post.
+
+No dashes. Replace healing and coping. Remove you are not broken. Fix bold body text. No H1.
+
+DISCOVERY POST RULE: Never name the condition anywhere in the body. Symptoms, patterns, lived experience only. If PANS/PANDAS or any diagnosis appears in body, flag it prominently at top and suggest reframe.
+
+Open with hook. Close hook at end. Weave Amber's origin story naturally.
+
+Three internal links. First always to PANS/PANDAS cornerstone: https://zareniwellness.com/pans-pandas-complete-parent-guide/
+
+One external link to credible source.
+
+Add natural light PANS/PANDAS Family Guide mention without naming the condition: https://shop.zareniwellness.com/products/pans-pandas-family-guide
+
+Kit opt-in once mid post after action steps:
+[convertkit form=9245579]
+
+Bio resonance scan session toward end: https://shop.zareniwellness.com/products/bio-resonance-scan-session
+
+Lead magnet before closing: https://zareniwellness.com/pans-pandas-free-guide
+
+All H2 main, H3 sub. Headings as questions or promises. Focus keyword in first 200 words. Minimum 2000 words.
+
+Output optimized post first. Separate Yoast SEO block. Medical disclaimer in italics.
+
+Flag at top: treatment claims, topic cannibalization, any discovery post violations.`,
+pp_published:`You are an expert content optimizer for Zareni Wellness. Optimize this published PANS/PANDAS pillar post.
+
+No dashes. Replace healing and coping. Remove you are not broken. Fix bold body text. No H1.
+
+PANS/PANDAS may be named throughout the body. Do not flag or remove any mention. Always written with the slash. Never PANS PANDAS without slash.
+
+Open with hook. Close hook at end. Weave Amber's origin story naturally.
+
+Three internal links. First always to PANS/PANDAS cornerstone: https://zareniwellness.com/pans-pandas-complete-parent-guide/
+
+One external link to credible source.
+
+Add natural PANS/PANDAS Family Guide mention: https://shop.zareniwellness.com/products/pans-pandas-family-guide
+
+Kit opt-in once mid post after action steps:
+[convertkit form=9245579]
+
+Bio resonance scan session toward end: https://shop.zareniwellness.com/products/bio-resonance-scan-session
+
+Lead magnet before closing: https://zareniwellness.com/pans-pandas-free-guide
+
+All H2 main, H3 sub. Headings as questions or promises. Focus keyword in first 200 words. Minimum 2000 words.
+
+Output optimized post first. Separate Yoast SEO block. Medical disclaimer in italics.
+
+Flag at top: treatment claims, unpublished internal links, topic cannibalization.`,
+pp_resource:`You are an expert content optimizer for Zareni Wellness. Optimize the PANS/PANDAS resource page. This is a curated navigation and conversion page, not a blog post.
+
+No dashes. Replace healing and coping. Remove you are not broken. Fix bold body text. No H1. H2 sections, H3 subsections. PANS/PANDAS always with slash.
+
+Structure in this exact order:
+1. Warm opening 2-3 sentences for parent who just arrived after weeks of searching.
+2. Cornerstone post section. Link: https://zareniwellness.com/pans-pandas-complete-parent-guide/
+3. Published pillar posts in exact order provided. Journey sections H2 headings. 1-2 sentence description per post in natural anchor text.
+4. Kit opt-in at approximately halfway point: [convertkit form=9245579] own line blank lines above below.
+5. Hard direct PANS/PANDAS Family Guide mention, not soft. Link: https://shop.zareniwellness.com/products/pans-pandas-family-guide
+6. Bio resonance scan session as concrete action step. Link: https://shop.zareniwellness.com/products/bio-resonance-scan-session
+7. Warm closing 2-3 sentences.
+
+Medical disclaimer in italics.
+
+Separate Yoast SEO block. Flag treatment claims, unpublished post URLs.`,
+lead_magnet:`You are an expert content creator for Zareni Wellness. Create a full lead magnet PDF guide following the Lead Magnet Template. All brand rules apply: no dashes, no bold body text, no healing or coping, no you are not broken, no woo woo language, structure and function language only, contractions throughout, address reader as you.
+
+Lead Magnet Template Structure:
+COVER: Guide title action oriented. Subtitle 1 sentence. Author name and credentials.
+PAGE 2 ORIENTATION: Section headline. Intro 2-3 sentences. For Children column 3-4 paragraphs. For Parents column 3-4 paragraphs.
+PAGE 3 EMOTIONAL NORMALIZATION: Relief, Fear, Grief, Exhaustion each with headline and 3-4 sentences normalizing the feeling.
+PAGE 4 FIRST STEPS: Steps 1-5 each with title and 2-3 sentences.
+PAGE 5 SUPPORT STRATEGIES: Strategies 1-3 each with title and 3-5 bullet points.
+PAGE 6 SYMPTOM TRACKER: 8-10 symptoms with descriptor, rating scale, footer note.
+PAGE 7 LOOKING AHEAD: Week One, Weeks Two and Three, Week Four and Beyond, Note on Road Ahead.
+PAGE 8 CLOSING: Personal letter from Amber 4-5 paragraphs first person warm honest ends with Rooting for you. Credentials and website.
+
+End with medical disclaimer in italics.`,
+lead_magnet_lp:`You are an expert content creator for Zareni Wellness. Create a lead magnet landing page following the Lead Magnet Landing Page Template. All brand rules apply.
+
+Template Structure:
+HERO: Eyebrow 2-4 words all caps. Headline one sentence reader focused. CTA Button Text.
+PAIN AGITATION: Section headline. 4 pain points each with eyebrow label, italic subheadline, body 2-3 sentences. Closing line soft pivot toward hope. CTA Button Text.
+BRIDGE: Eyebrow. Headline Amber origin story hook. Body 2-3 sentences. Left card WHAT I LIVED 3 paragraphs Amber first person. Right card WHAT THIS GUIDE GIVES YOU 3 paragraphs reader second person. Italic closing line. Final line.
+INSIDE THE GUIDE: Eyebrow. Headline. Intro sentence. Sections 01-04 with title and 2-3 sentence description.
+ABOUT AMBER: Eyebrow. Headline. Body paragraph 1 credentials and origin story. Body paragraph 2 who she helps. Credentials line. CTA Button Text.
+TRUST BAR: Six credential items with bold label and short subtitle.
+TESTIMONIAL: Quote. Name. Label.
+CLOSING OPT-IN: Eyebrow. Short benefit driven headline. Body 2-3 sentences. CTA Button Text.
+
+End with medical disclaimer in italics.`
 };
 
-let batchRows=[], lastOut='', lastKW='', lastTitle='', lastPostId='';
-let coreDocs=[], pillarDocs=[];
+let batchRows=[],lastOut='',lastKW='',lastTitle='',lastPostId='';
+let coreDocs=[],pillarDocs=[];
 
 function gs(){
   return{
@@ -527,12 +689,12 @@ function resetBC(){
 
 function loadAll(){
   const s=gs();
-  if(s.api) document.getElementById('s-api').value=s.api;
+  if(s.api)document.getElementById('s-api').value=s.api;
   document.getElementById('s-wp-url').value=s.wpUrl;
   document.getElementById('s-wp-user').value=s.wpUser;
-  if(s.wpPass) document.getElementById('s-wp-pass').value=s.wpPass;
+  if(s.wpPass)document.getElementById('s-wp-pass').value=s.wpPass;
   document.getElementById('s-wp-author').value=s.wpAuthor;
-  if(s.driveKey) document.getElementById('kb-drive-key').value=s.driveKey;
+  if(s.driveKey)document.getElementById('kb-drive-key').value=s.driveKey;
   document.getElementById('kb-brand-context').value=s.bc;
   coreDocs=JSON.parse(localStorage.getItem('zw_coredocs')||'[]');
   pillarDocs=JSON.parse(localStorage.getItem('zw_pillardocs')||'[]');
@@ -569,18 +731,19 @@ function removePillarDoc(i){pillarDocs.splice(i,1);renderDocLists();}
 
 async function fetchDriveDoc(docId){
   const s=gs();
-  if(!s.driveKey||!docId) return null;
+  if(!s.driveKey||!docId)return null;
   try{
-    const meta=await fetch(`https://www.googleapis.com/drive/v3/files/${docId}?fields=mimeType&key=${s.driveKey}`);
-    if(!meta.ok) return null;
-    const{mimeType}=await meta.json();
+    const metaRes=await fetch(`https://www.googleapis.com/drive/v3/files/${docId}?fields=mimeType&key=${s.driveKey}`);
+    if(!metaRes.ok)return null;
+    const meta=await metaRes.json();
+    const mimeType=meta.mimeType||'';
     let r;
     if(mimeType==='application/vnd.google-apps.document'){
       r=await fetch(`https://www.googleapis.com/drive/v3/files/${docId}/export?mimeType=text/plain&key=${s.driveKey}`);
     }else{
       r=await fetch(`https://www.googleapis.com/drive/v3/files/${docId}?alt=media&key=${s.driveKey}`);
     }
-    if(!r.ok) return null;
+    if(!r.ok)return null;
     return await r.text();
   }catch(e){return null;}
 }
@@ -590,11 +753,11 @@ async function buildContext(pillarDocId){
   let ctx=s.bc;
   for(const doc of coreDocs){
     const txt=await fetchDriveDoc(doc.id);
-    if(txt) ctx+='\n\n---\n'+doc.name.toUpperCase()+':\n'+txt;
+    if(txt)ctx+='\n\n---\n'+doc.name.toUpperCase()+':\n'+txt;
   }
   if(pillarDocId){
     const txt=await fetchDriveDoc(pillarDocId);
-    if(txt) ctx+='\n\n---\nPILLAR DOCUMENT:\n'+txt;
+    if(txt)ctx+='\n\n---\nPILLAR DOCUMENT:\n'+txt;
   }
   return ctx;
 }
@@ -650,9 +813,7 @@ function clearGen(){
 function extractSEO(text){
   const keys=['Yoast Focus Keyphrase','Yoast SEO Title','Yoast Meta Description','Yoast Slug','Yoast Cornerstone Content','Yoast Canonical URL'];
   const fields={};
-  text.split('\n').forEach(line=>{
-    keys.forEach(k=>{if(line.startsWith(k+':'))fields[k]=line.substring(k.length+1).trim();});
-  });
+  text.split('\\n').forEach(line=>{keys.forEach(k=>{if(line.startsWith(k+':'))fields[k]=line.substring(k.length+1).trim();});});
   if(Object.keys(fields).length>0){
     let html='';
     keys.forEach(k=>{if(fields[k]!==undefined)html+=`<div class="seo-row"><span class="seo-lbl">${k.replace('Yoast ','')}</span><span class="seo-val">${fields[k]}</span></div>`;});
@@ -662,17 +823,55 @@ function extractSEO(text){
 }
 
 function buildUserPrompt(wf,d){
-  const base=`Post Title: ${d.title}\nPillar: ${d.pillar}\nFocus Keyword: ${d.keyword}`;
-  const withContent=base+`\nPost Content:\n${d.content}`;
+  const base=`Post Title: ${d.title}
+Pillar: ${d.pillar}
+Focus Keyword: ${d.keyword}`;
+  const withContent=base+`
+Post Content:
+${d.content}`;
   const prompts={
-    net_new:`Generate a brand new blog post for Zareni Wellness.\n\n${base}\n\nFollow every instruction in the system prompt exactly. Output the fully written post first, then the Yoast SEO block, then the medical disclaimer.`,
-    draft_opt:`Optimize the following draft blog post for Zareni Wellness.\n\n${withContent}\n\nOutput the fully optimized post first, then the Yoast SEO block, then the medical disclaimer.`,
-    pp_cornerstone:`Optimize the following PANS/PANDAS cornerstone post for Zareni Wellness.\n\n${withContent}${d.urls?'\nPublished Post URLs:\n'+d.urls:''}\n\nOutput the fully optimized post first, then the Yoast SEO block, then the medical disclaimer.`,
-    pp_discovery:`Optimize the following PANS/PANDAS discovery post for Zareni Wellness.\n\n${withContent}\n\nOutput the fully optimized post first, then the Yoast SEO block, then the medical disclaimer.`,
-    pp_published:`Optimize the following published PANS/PANDAS pillar post for Zareni Wellness.\n\n${withContent}\n\nOutput the fully optimized post first, then the Yoast SEO block, then the medical disclaimer.`,
-    pp_resource:`Optimize the following PANS/PANDAS resource page for Zareni Wellness.\n\n${withContent}\nPublished Post URLs:\n${d.urls||'(none provided)'}\n\nOutput the fully optimized page first, then the Yoast SEO block, then the medical disclaimer.`,
-    lead_magnet:`Create a lead magnet PDF guide for Zareni Wellness.\n\n${base}\n\nFollow the Lead Magnet Template structure exactly. Output all pages clearly labeled.`,
-    lead_magnet_lp:`Create a lead magnet landing page for Zareni Wellness.\n\n${base}\n\nFollow the Lead Magnet Landing Page Template exactly. Output all sections clearly labeled.`
+    net_new:`Generate a brand new blog post for Zareni Wellness.
+
+${base}
+
+Follow every instruction in the system prompt exactly. Output the fully written post first, then the Yoast SEO block, then the medical disclaimer.`,
+    draft_opt:`Optimize the following draft blog post for Zareni Wellness.
+
+${withContent}
+
+Output the fully optimized post first, then the Yoast SEO block, then the medical disclaimer.`,
+    pp_cornerstone:`Optimize the following PANS/PANDAS cornerstone post for Zareni Wellness.
+
+${withContent}${d.urls?'\nPublished Post URLs:\n'+d.urls:''}
+
+Output the fully optimized post first, then the Yoast SEO block, then the medical disclaimer.`,
+    pp_discovery:`Optimize the following PANS/PANDAS discovery post for Zareni Wellness.
+
+${withContent}
+
+Output the fully optimized post first, then the Yoast SEO block, then the medical disclaimer.`,
+    pp_published:`Optimize the following published PANS/PANDAS pillar post for Zareni Wellness.
+
+${withContent}
+
+Output the fully optimized post first, then the Yoast SEO block, then the medical disclaimer.`,
+    pp_resource:`Optimize the following PANS/PANDAS resource page for Zareni Wellness.
+
+${withContent}
+Published Post URLs:
+${d.urls||'(none provided)'}
+
+Output the fully optimized page first, then the Yoast SEO block, then the medical disclaimer.`,
+    lead_magnet:`Create a lead magnet PDF guide for Zareni Wellness.
+
+${base}
+
+Follow the Lead Magnet Template structure exactly. Output all pages clearly labeled.`,
+    lead_magnet_lp:`Create a lead magnet landing page for Zareni Wellness.
+
+${base}
+
+Follow the Lead Magnet Landing Page Template exactly. Output all sections clearly labeled.`
   };
   return prompts[wf]||prompts.net_new;
 }
@@ -719,19 +918,79 @@ function copyOut(){
   });
 }
 
+function markdownToHTML(text){
+  // Strip the Yoast SEO block from post content
+  let clean=text;
+  const yoastStart=clean.search(/Yoast Focus Keyphrase:/m);
+  if(yoastStart>-1){clean=clean.substring(0,yoastStart).trim();}
+  // Also strip FLAG lines at top
+  clean=clean.replace(/^\*\*FLAG:\*\*.*$/m,'').trim();
+  clean=clean.replace(/^---\s*$/m,'').trim();
+  // Convert markdown to HTML
+  // H2
+  clean=clean.replace(/^## (.+)$/gm,'<h2>$1</h2>');
+  // H3
+  clean=clean.replace(/^### (.+)$/gm,'<h3>$1</h3>');
+  // H4
+  clean=clean.replace(/^#### (.+)$/gm,'<h4>$1</h4>');
+  // Bold
+  clean=clean.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  // Italic - preserve medical disclaimer italics
+  clean=clean.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+  // Horizontal rules
+  clean=clean.replace(/^---$/gm,'<hr>');
+  // Convert line breaks to paragraphs
+  const blocks=clean.split(/\n\n+/);
+  const html=blocks.map(block=>{
+    block=block.trim();
+    if(!block)return '';
+    if(block.startsWith('<h2>')||block.startsWith('<h3>')||block.startsWith('<h4>')||block.startsWith('<hr>'))return block;
+    if(block.startsWith('[convertkit'))return '\n'+block+'\n';
+    // Handle bullet lists
+    if(block.match(/^[\-\*] /m)){
+      const items=block.split('\n').filter(l=>l.trim());
+      const listItems=items.map(item=>item.replace(/^[\-\*] /,'<li>').trim()+'</li>').join('');
+      return '<ul>'+listItems+'</ul>';
+    }
+    return '<p>'+block.replace(/\n/g,' ')+'</p>';
+  }).filter(Boolean).join('\n');
+  return html;
+}
+
+function extractYoastFields(text){
+  const fields={};
+  const lines=text.split('\\n');
+  lines.forEach(line=>{
+    if(line.startsWith('Yoast Focus Keyphrase:'))fields.focuskw=line.substring('Yoast Focus Keyphrase:'.length).trim();
+    if(line.startsWith('Yoast SEO Title:'))fields.title=line.substring('Yoast SEO Title:'.length).trim();
+    if(line.startsWith('Yoast Meta Description:'))fields.metadesc=line.substring('Yoast Meta Description:'.length).trim();
+    if(line.startsWith('Yoast Slug:'))fields.slug=line.substring('Yoast Slug:'.length).trim();
+    if(line.startsWith('Yoast Cornerstone Content:'))fields.cornerstone=line.substring('Yoast Cornerstone Content:'.length).trim().toLowerCase()==='yes';
+  });
+  return fields;
+}
+
 async function pushWP(){
   const s=gs();
   if(!s.wpPass){alert('Configure WordPress credentials in Settings first.');return;}
   const wf=document.getElementById('wf').value;
   const isCreate=wf==='net_new'||wf==='lead_magnet'||wf==='lead_magnet_lp';
-  const slug=lastKW.toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,'-');
+  const yoast=extractYoastFields(lastOut);
+  const slug=(yoast.slug||lastKW).toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,'-');
+  const htmlContent=markdownToHTML(lastOut);
   const ep=isCreate?'/wp-json/wp/v2/posts':'/wp-json/wp/v2/posts/'+lastPostId;
-  const body={title:lastTitle,content:lastOut,status:'draft',slug:slug,author:parseInt(s.wpAuthor)||1,meta:{_yoast_wpseo_focuskw:lastKW}};
+  const meta={
+    _yoast_wpseo_focuskw:yoast.focuskw||lastKW,
+    _yoast_wpseo_title:yoast.title||lastTitle,
+    _yoast_wpseo_metadesc:yoast.metadesc||'',
+    _yoast_wpseo_is_cornerstone:yoast.cornerstone||false
+  };
+  const body={title:lastTitle,content:htmlContent,status:'draft',slug:slug,author:parseInt(s.wpAuthor)||1,meta:meta};
   const tag=document.getElementById('wp-gen-tag');
   tag.style.display='inline-block';tag.className='wp-tag wp-p';tag.textContent='Pushing...';
   try{
     const r=await fetch(s.wpUrl+ep,{method:isCreate?'POST':'PUT',headers:{'Content-Type':'application/json','Authorization':'Basic '+btoa(s.wpUser+':'+s.wpPass)},body:JSON.stringify(body)});
-    if(!r.ok) throw new Error('WordPress returned error '+r.status);
+    if(!r.ok)throw new Error('WordPress returned error '+r.status);
     tag.className='wp-tag wp-ok';tag.textContent='Pushed as draft';
   }catch(e){tag.className='wp-tag wp-e';tag.textContent='Error: '+e.message;}
 }
@@ -770,7 +1029,7 @@ async function testDrive(){
 
 function loadCSV(){
   const file=document.getElementById('batch-file').files[0];
-  if(!file) return;
+  if(!file)return;
   const reader=new FileReader();
   reader.onload=e=>{
     const lines=e.target.result.split('\n').filter(l=>l.trim());
@@ -780,11 +1039,11 @@ function loadCSV(){
       const vals=line.split(',').map(v=>v.trim().replace(/^"|"$/g,''));
       const row={i,status:'pending',out:'',title:'',keyword:'',pillar:'',postId:'',content:''};
       headers.forEach((h,j)=>{
-        if(h==='title') row.title=vals[j]||'';
-        if(h==='focus_keyword') row.keyword=vals[j]||'';
-        if(h==='pillar') row.pillar=vals[j]||'';
-        if(h==='post_id') row.postId=vals[j]||'';
-        if(h==='post_content') row.content=vals[j]||'';
+        if(h==='title')row.title=vals[j]||'';
+        if(h==='focus_keyword')row.keyword=vals[j]||'';
+        if(h==='pillar')row.pillar=vals[j]||'';
+        if(h==='post_id')row.postId=vals[j]||'';
+        if(h==='post_content')row.content=vals[j]||'';
       });
       return row;
     }).filter(r=>r.title);
@@ -811,7 +1070,7 @@ async function runOne(i){
   const row=batchRows[i];
   const wf=document.getElementById('batch-wf').value;
   const sys=SYSTEM_PROMPTS[wf];
-  if(!sys) return;
+  if(!sys)return;
   setBadge(i,'running');
   document.getElementById('run-'+i).disabled=true;
   try{
@@ -827,7 +1086,7 @@ async function runOne(i){
 async function runBatch(){
   document.getElementById('batch-run').disabled=true;
   for(let i=0;i<batchRows.length;i++){
-    if(batchRows[i].status!=='done') await runOne(i);
+    if(batchRows[i].status!=='done')await runOne(i);
   }
   document.getElementById('batch-run').disabled=false;
 }
@@ -846,12 +1105,20 @@ async function pushBatchRow(i){
   const row=batchRows[i];
   const wf=document.getElementById('batch-wf').value;
   const isCreate=wf==='net_new';
-  const slug=row.keyword.toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,'-');
+  const yoast=extractYoastFields(row.out);
+  const slug=(yoast.slug||row.keyword).toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,'-');
+  const htmlContent=markdownToHTML(row.out);
   const ep=isCreate?'/wp-json/wp/v2/posts':'/wp-json/wp/v2/posts/'+row.postId;
-  const body={title:row.title,content:row.out,status:'draft',slug:slug,author:parseInt(s.wpAuthor)||1,meta:{_yoast_wpseo_focuskw:row.keyword}};
+  const meta={
+    _yoast_wpseo_focuskw:yoast.focuskw||row.keyword,
+    _yoast_wpseo_title:yoast.title||row.title,
+    _yoast_wpseo_metadesc:yoast.metadesc||'',
+    _yoast_wpseo_is_cornerstone:yoast.cornerstone||false
+  };
+  const body={title:row.title,content:htmlContent,status:'draft',slug:slug,author:parseInt(s.wpAuthor)||1,meta:meta};
   try{
     const r=await fetch(s.wpUrl+ep,{method:isCreate?'POST':'PUT',headers:{'Content-Type':'application/json','Authorization':'Basic '+btoa(s.wpUser+':'+s.wpPass)},body:JSON.stringify(body)});
-    if(!r.ok) throw new Error('WordPress error '+r.status);
+    if(!r.ok)throw new Error('WordPress error '+r.status);
     setBadge(i,'done');
     document.getElementById('bb-'+i).textContent='pushed';
     document.getElementById('bb-'+i).className='badge b-pushed';
@@ -860,13 +1127,13 @@ async function pushBatchRow(i){
 
 async function pushAllWP(){
   for(let i=0;i<batchRows.length;i++){
-    if(batchRows[i].status==='done'&&batchRows[i].out) await pushBatchRow(i);
+    if(batchRows[i].status==='done'&&batchRows[i].out)await pushBatchRow(i);
   }
 }
 
 function exportCSV(){
   if(!batchRows.length){alert('No rows to export.');return;}
-  const rows=batchRows.map(r=>[r.title,r.keyword,r.pillar,r.postId,r.status].map(v=>'"'+(v||'').replace(/"/g,'""')+'"').concat(['"'+(r.out||'').replace(/"/g,'""')+'"']).join(','));
+  const rows=batchRows.map(r=>[r.title,r.keyword,r.pillar,r.postId,r.status].map(v=>'"'+( v||'').replace(/"/g,'""')+'"').concat(['"'+(r.out||'').replace(/"/g,'""')+'"']).join(','));
   const csv=['title,focus_keyword,pillar,post_id,status,output',...rows].join('\n');
   const a=document.createElement('a');
   a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
@@ -881,7 +1148,15 @@ async function runKW(){
   if(!seed){alert('Enter a seed keyword first.');return;}
   setStatus('kw-status','run','Researching keywords...');
   const sys='You are an expert SEO strategist for Zareni Wellness, a root cause wellness brand covering complex and chronic illness. You understand the content pillar system including discovery posts that never name conditions, symptom-specific posts, pattern posts, practical posts, cornerstone posts, and long-tail supporting posts. Provide detailed keyword research with search intent, competition level, content angle, and post type recommendations.';
-  const user=`Research ${type} keywords for the ${pillar||'general wellness'} pillar.\n\nSeed keyword: ${seed}\n\nProvide:\n1. 10-15 specific keyword phrases with search intent notes\n2. For each: competition level (low/medium/high), content angle suggestion, post type fit\n3. Top 3 to prioritize first and why\n4. Topic cannibalization risks within this pillar to watch for`;
+  const user=`Research ${type} keywords for the ${pillar||'general wellness'} pillar.
+
+Seed keyword: ${seed}
+
+Provide:
+1. 10-15 specific keyword phrases with search intent notes
+2. For each: competition level (low/medium/high), content angle suggestion, post type fit
+3. Top 3 to prioritize first and why
+4. Topic cannibalization risks within this pillar to watch for`;
   try{
     const out=await callAPI(sys,user,2000,'');
     document.getElementById('kw-out').textContent=out;
@@ -896,7 +1171,18 @@ async function runComp(){
   if(!url){alert('Enter a competitor URL first.');return;}
   setStatus('comp-status','run','Analyzing competitor...');
   const sys='You are an expert content strategist for Zareni Wellness. You analyze competitor content to find gaps and opportunities. You understand the Zareni Wellness 28-pillar model, root cause approach, discovery post model, and complex chronic illness audience.';
-  const user=`Analyze the following competitor for the ${pillar||'wellness'} pillar.\n\nCompetitor URL: ${url}\nAnalysis focus: ${focus}\n\nProvide:\n1. Competitor content approach and strengths\n2. Specific content gaps where Zareni Wellness can outrank them\n3. Topics they cover shallowly where Zareni Wellness can go deeper\n4. Keywords they likely rank for that Zareni Wellness should target\n5. Content angles that would differentiate Zareni Wellness\n6. Top 3 immediate content opportunities to prioritize`;
+  const user=`Analyze the following competitor for the ${pillar||'wellness'} pillar.
+
+Competitor URL: ${url}
+Analysis focus: ${focus}
+
+Provide:
+1. Competitor content approach and strengths
+2. Specific content gaps where Zareni Wellness can outrank them
+3. Topics they cover shallowly where Zareni Wellness can go deeper
+4. Keywords they likely rank for that Zareni Wellness should target
+5. Content angles that would differentiate Zareni Wellness
+6. Top 3 immediate content opportunities to prioritize`;
   try{
     const out=await callAPI(sys,user,2000,'');
     document.getElementById('comp-out').textContent=out;
