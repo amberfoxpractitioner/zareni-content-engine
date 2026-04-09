@@ -571,7 +571,15 @@ async function fetchDriveDoc(docId){
   const s=gs();
   if(!s.driveKey||!docId) return null;
   try{
-    const r=await fetch(`https://www.googleapis.com/drive/v3/files/${docId}/export?mimeType=text/plain&key=${s.driveKey}`);
+    const meta=await fetch(`https://www.googleapis.com/drive/v3/files/${docId}?fields=mimeType&key=${s.driveKey}`);
+    if(!meta.ok) return null;
+    const{mimeType}=await meta.json();
+    let r;
+    if(mimeType==='application/vnd.google-apps.document'){
+      r=await fetch(`https://www.googleapis.com/drive/v3/files/${docId}/export?mimeType=text/plain&key=${s.driveKey}`);
+    }else{
+      r=await fetch(`https://www.googleapis.com/drive/v3/files/${docId}?alt=media&key=${s.driveKey}`);
+    }
     if(!r.ok) return null;
     return await r.text();
   }catch(e){return null;}
