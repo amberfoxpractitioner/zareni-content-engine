@@ -150,7 +150,7 @@ textarea{resize:vertical;line-height:1.6}
       <div id="gen-status" class="status s-idle"><span>Ready to generate</span></div>
       <div class="card">
         <div class="card-title">Output <button class="btn btn-outline btn-sm" onclick="copyOut()" style="margin-left:auto">Copy All</button></div>
-        <div id="gen-out" class="output-box"><span class="placeholder">Select a workflow, fill in the inputs, and click Generate.</span></div>
+        <div id="gen-out" class="output-box" contenteditable="true" spellcheck="true"><span class="placeholder">Select a workflow, fill in the inputs, and click Generate.</span></div>
         <div id="seo-panel" style="display:none">
           <div class="seo-box">
             <div class="seo-title">Yoast SEO Block</div>
@@ -952,10 +952,11 @@ async function generate(){
 }
 
 function copyOut(){
-  if(!lastOut){alert('Nothing to copy yet.');return;}
-  navigator.clipboard.writeText(lastOut).then(()=>alert('Copied to clipboard.')).catch(()=>{
+  const editedContent=document.getElementById('gen-out').innerText||document.getElementById('gen-out').textContent||lastOut;
+  if(!editedContent||editedContent.includes('Select a workflow')){alert('Nothing to copy yet.');return;}
+  navigator.clipboard.writeText(editedContent).then(()=>alert('Copied to clipboard.')).catch(()=>{
     const ta=document.createElement('textarea');
-    ta.value=lastOut;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    ta.value=editedContent;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
     alert('Copied to clipboard.');
   });
 }
@@ -995,13 +996,16 @@ function markdownToHTML(text){
   // Strip Yoast SEO block
   const yoastStart=clean.search(/Yoast Focus Keyphrase:/m);
   if(yoastStart>-1){clean=clean.substring(0,yoastStart).trim();}
-  // Strip FLAG lines and surrounding ---
-  clean=clean.replace(/^\*\*FLAGS?:\*\*.*$/m,'').trim();
-  clean=clean.replace(/^FLAGS?:.*$/m,'').trim();
+  // Strip all FLAG lines and variations aggressively
+  clean=clean.replace(/^\*\*FLAGS?:\*\*.*$(\n)?/m,'').trim();
+  clean=clean.replace(/^FLAGS?:.*$(\n)?/m,'').trim();
+  clean=clean.replace(/^\*\*FLAG:\*\*.*$(\n)?/gm,'').trim();
   // Strip H1 lines (# Title)
-  clean=clean.replace(/^# .+$/m,'').trim();
-  // Strip leading ---
-  clean=clean.replace(/^---\s*$/m,'').trim();
+  clean=clean.replace(/^# .+$(\n)?/m,'').trim();
+  // Strip leading --- separator lines
+  clean=clean.replace(/^---\s*$(\n)?/m,'').trim();
+  // Clean up any double blank lines left behind
+  clean=clean.replace(/\n{3,}/g,'\n\n').trim();
   // Convert markdown headings
   clean=clean.replace(/^### (.+)$/gm,'<h3>$1</h3>');
   clean=clean.replace(/^## (.+)$/gm,'<h2>$1</h2>');
@@ -1046,6 +1050,9 @@ function extractYoastFields(text){
 async function pushWP(){
   const s=gs();
   if(!s.wpPass){alert('Configure WordPress credentials in Settings first.');return;}
+  // Read from the editable output box in case user made edits
+  const editedContent=document.getElementById('gen-out').innerText||document.getElementById('gen-out').textContent||lastOut;
+  lastOut=editedContent;
   const wf=document.getElementById('wf').value;
   const isCreate=wf==='net_new'||wf==='lead_magnet'||wf==='lead_magnet_lp';
   const yoast=extractYoastFields(lastOut);
