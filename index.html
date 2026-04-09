@@ -919,34 +919,34 @@ function copyOut(){
 }
 
 function markdownToHTML(text){
-  // Strip the Yoast SEO block from post content
   let clean=text;
+  // Strip Yoast SEO block
   const yoastStart=clean.search(/Yoast Focus Keyphrase:/m);
   if(yoastStart>-1){clean=clean.substring(0,yoastStart).trim();}
-  // Also strip FLAG lines at top
-  clean=clean.replace(/^\*\*FLAG:\*\*.*$/m,'').trim();
+  // Strip FLAG lines and surrounding ---
+  clean=clean.replace(/^\*\*FLAGS?:\*\*.*$/m,'').trim();
+  clean=clean.replace(/^FLAGS?:.*$/m,'').trim();
+  // Strip H1 lines (# Title)
+  clean=clean.replace(/^# .+$/m,'').trim();
+  // Strip leading ---
   clean=clean.replace(/^---\s*$/m,'').trim();
-  // Convert markdown to HTML
-  // H2
-  clean=clean.replace(/^## (.+)$/gm,'<h2>$1</h2>');
-  // H3
+  // Convert markdown headings
   clean=clean.replace(/^### (.+)$/gm,'<h3>$1</h3>');
-  // H4
-  clean=clean.replace(/^#### (.+)$/gm,'<h4>$1</h4>');
-  // Bold
+  clean=clean.replace(/^## (.+)$/gm,'<h2>$1</h2>');
+  // Strip any remaining # headings (H1 safety net)
+  clean=clean.replace(/^# (.+)$/gm,'');
+  // Bold and italic
   clean=clean.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
-  // Italic - preserve medical disclaimer italics
-  clean=clean.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+  clean=clean.replace(/\*([^*\n]+)\*/g,'<em>$1</em>');
   // Horizontal rules
   clean=clean.replace(/^---$/gm,'<hr>');
-  // Convert line breaks to paragraphs
+  // Split into blocks and convert to HTML
   const blocks=clean.split(/\n\n+/);
   const html=blocks.map(block=>{
     block=block.trim();
     if(!block)return '';
     if(block.startsWith('<h2>')||block.startsWith('<h3>')||block.startsWith('<h4>')||block.startsWith('<hr>'))return block;
     if(block.startsWith('[convertkit'))return '\n'+block+'\n';
-    // Handle bullet lists
     if(block.match(/^[\-\*] /m)){
       const items=block.split('\n').filter(l=>l.trim());
       const listItems=items.map(item=>item.replace(/^[\-\*] /,'<li>').trim()+'</li>').join('');
@@ -959,7 +959,7 @@ function markdownToHTML(text){
 
 function extractYoastFields(text){
   const fields={};
-  const lines=text.split('\\n');
+  const lines=text.split(/\r?\n/);
   lines.forEach(line=>{
     if(line.startsWith('Yoast Focus Keyphrase:'))fields.focuskw=line.substring('Yoast Focus Keyphrase:'.length).trim();
     if(line.startsWith('Yoast SEO Title:'))fields.title=line.substring('Yoast SEO Title:'.length).trim();
@@ -985,7 +985,7 @@ async function pushWP(){
     _yoast_wpseo_metadesc:yoast.metadesc||'',
     _yoast_wpseo_is_cornerstone:yoast.cornerstone||false
   };
-  const body={title:lastTitle,content:htmlContent,status:'draft',slug:slug,author:parseInt(s.wpAuthor)||1,meta:meta};
+  const body={title:lastTitle,content:htmlContent,status:'draft',slug:slug,author:parseInt(s.wpAuthor)||1,meta:meta,content_filtered:''};
   const tag=document.getElementById('wp-gen-tag');
   tag.style.display='inline-block';tag.className='wp-tag wp-p';tag.textContent='Pushing...';
   try{
