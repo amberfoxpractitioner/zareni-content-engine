@@ -1113,7 +1113,7 @@ async function pushWP(){
     _yoast_wpseo_metadesc:yoast.metadesc||'',
     _yoast_wpseo_is_cornerstone:yoast.cornerstone||false
   };
-  const body={title:lastTitle,content:htmlContent,status:'draft',slug:slug,author:parseInt(s.wpAuthor)||1,meta:meta,content_filtered:''};
+  const body={title:lastTitle.replace(/^Title:\s*/i,''),content:htmlContent,status:'draft',slug:slug,author:parseInt(s.wpAuthor)||1,meta:meta,content_filtered:''};
   const tag=document.getElementById('wp-gen-tag');
   tag.style.display='inline-block';tag.className='wp-tag wp-p';tag.textContent='Pushing...';
   try{
