@@ -143,7 +143,7 @@ textarea{resize:vertical;line-height:1.6}
         <div class="btn-row">
           <button class="btn btn-sage" id="gen-btn" onclick="generate()">Generate</button>
           <button class="btn btn-outline" id="regen-btn" onclick="regenerate()" style="display:none">Regenerate</button>
-          <button class="btn btn-outline" onclick="clearGen()">Clear</button><button class="btn btn-outline" id="regen-btn" onclick="regenerate()" style="display:none;margin-left:8px">Regenerate</button><button class="btn btn-outline" id="regen-btn" onclick="regenerate()" style="display:none;margin-left:8px">Regenerate</button>
+          <button class="btn btn-outline" onclick="clearGen()">Clear</button>
         </div>
       </div>
     </div>
@@ -505,7 +505,9 @@ WRITING RULES - SHORT AND NON-NEGOTIABLE:
 - No formal academic transitions. No "it is worth noting." No "before we close." No "in conclusion." No "it is important to understand."
 - Never "delve."
 - Structure and function language only.
-- Under 2200 words. Every sentence earns its place.
+- Target 2000 words minimum, 2500 words maximum. Every sentence earns its place.
+- Paragraphs are 3 to 5 sentences. Not one sentence. Not a wall of text. Conversational but substantive.
+- Bullet points only for true lists like symptoms, steps, or triggers. Not for every section.
 
 EMOTIONAL ARC:
 Open in her exhaustion. She is nodding because you are describing her life exactly. Move into understanding. The fog lifts. There is a reason. It is not in her head. End in real hope. The kind that feels like an exhale after years of holding her breath. She found the missing piece. Make her feel mounting excitement as she reads. By the end she should feel like she could cry with relief.
@@ -518,7 +520,7 @@ H2 and H3 headings only. Never H1. Every heading a question or a promise. New su
 
 MANDATORY CTA ORDER - ALL REQUIRED:
 1. Actionable steps section with bullet points
-2. Toolkit mention, two sentences, natural, anchor text to https://shop.zareniwellness.com/collections/digital-wellness-toolkits
+2. Toolkit mention, two to three sentences, natural, anchor text to https://shop.zareniwellness.com/collections/digital-wellness-toolkits. Never use the word healing in this mention.
 3. Kit opt-in on its own line with blank lines above and below: [convertkit form=9245579]
 4. Scan session, three sentences, invitation not pitch, anchor text: [book a bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session)
 5. Closing paragraph. Warm. Human. Closes the hook. Never sells anything. The exhale.
@@ -575,7 +577,7 @@ WHAT TO ADD OR STRENGTHEN:
 
 MANDATORY CTA ORDER - ALL REQUIRED:
 1. Actionable steps section with bullet points
-2. Toolkit mention, two sentences, natural, anchor text to https://shop.zareniwellness.com/collections/digital-wellness-toolkits
+2. Toolkit mention, two to three sentences, natural, anchor text to https://shop.zareniwellness.com/collections/digital-wellness-toolkits. Never use the word healing in this mention.
 3. Kit opt-in on its own line with blank lines above and below: [convertkit form=9245579]
 4. Scan session, three sentences, invitation not pitch, anchor text: [book a bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session)
 5. Closing paragraph. Warm. Human. Closes the hook. Never sells anything.
@@ -587,7 +589,9 @@ WRITING RULES:
 - No bold body text.
 - No COVID by name.
 - Structure and function language only.
-- Under 2200 words unless the topic genuinely requires more.
+- Target 2000 words minimum, 2500 words maximum.
+- Paragraphs are 3 to 5 sentences. Not one sentence. Not a wall of text. Conversational but substantive.
+- Bullet points only for true lists like symptoms, steps, or triggers. Not for every section.
 - H2 and H3 only. Never H1. Every heading a question or a promise.
 - Three internal links, first to pillar cornerstone, always anchor text.
 - One external link to credible source, always anchor text.
@@ -1323,7 +1327,7 @@ function regenerate(){
   document.getElementById('polish-input').value='';
   generate();
 }
-function regenerate(){generate();}
+
 function updateWordCount(text){
   if(!text)return;
   // Strip Yoast block and count only post words
