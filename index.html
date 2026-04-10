@@ -939,7 +939,7 @@ async function callAPI(system,user,tokens,pillarDocId){
   const r=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
     headers:{'Content-Type':'application/json','x-api-key':s.api,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:tokens||8000,system:fullSystem,messages:[{role:'user',content:user}]})
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:tokens||12000,system:fullSystem,messages:[{role:'user',content:user}]})
   });
   if(!r.ok){const e=await r.json();throw new Error(e.error?.message||'API error '+r.status);}
   const d=await r.json();
@@ -1067,7 +1067,7 @@ async function generate(){
   document.getElementById('seo-panel').style.display='none';
   document.getElementById('wp-row').style.display='none';
   try{
-    const out=await callAPI(sys,buildUserPrompt(wf,d),8000,d.pillarDoc);
+    const out=await callAPI(sys,buildUserPrompt(wf,d),12000,d.pillarDoc);
     lastOut=out;lastKW=d.keyword;lastTitle=d.title;lastPostId=d.postId;
     const outEl=document.getElementById('gen-out');
     outEl.innerText=out;
@@ -1310,7 +1310,7 @@ async function runOne(i){
   setBadge(i,'running');
   document.getElementById('run-'+i).disabled=true;
   try{
-    const out=await callAPI(sys,buildUserPrompt(wf,{title:row.title,keyword:row.keyword,pillar:row.pillar,content:row.content,urls:'',pillarDoc:''}),8000,'');
+    const out=await callAPI(sys,buildUserPrompt(wf,{title:row.title,keyword:row.keyword,pillar:row.pillar,content:row.content,urls:'',pillarDoc:''}),12000,'');
     row.out=out;setBadge(i,'done');
     document.getElementById('wp-'+i).style.display='inline-block';
     document.getElementById('view-'+i).style.display='inline-block';
