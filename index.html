@@ -1221,9 +1221,7 @@ async function pushWP(){
     _yoast_wpseo_metadesc:yoast.metadesc||'',
     _yoast_wpseo_is_cornerstone:yoast.cornerstone||false
   };
-  // Ensure content is treated as Gutenberg blocks by WordPress
-  const wpContent = '<!-- wp:group {"layout":{"type":"constrained"}} -->\n<div class="wp-block-group">\n' + htmlContent + '\n</div>\n<!-- /wp:group -->';
-  const body={title:lastTitle.replace(/^Title:\s*/i,''),content:wpContent,status:'draft',slug:slug,author:parseInt(s.wpAuthor)||1,meta:meta};
+  const body={title:lastTitle.replace(/^Title:\s*/i,''),content:htmlContent,status:'draft',slug:slug,author:parseInt(s.wpAuthor)||1,meta:meta};
   const tag=document.getElementById('wp-gen-tag');
   tag.style.display='inline-block';tag.className='wp-tag wp-p';tag.textContent='Pushing...';
   try{
