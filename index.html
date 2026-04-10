@@ -1032,7 +1032,44 @@ async function generate(){
   document.getElementById('seo-panel').style.display='none';
   document.getElementById('wp-row').style.display='none';
   try{
-    const out=await callAPI(sys,buildUserPrompt(wf,d),12000,d.pillarDoc);
+    const wfIsNetNew = wf==='net_new';
+    let out;
+
+    if(wfIsNetNew){
+      // Two-call approach for net new posts to ensure 2000+ words
+      setStatus('gen-status','run','Generating first half of post...');
+      const part1Prompt = buildUserPrompt(wf,d) + '\n\nIMPORTANT: Write the opening hook paragraphs and the first THREE H2 sections only. Write each section to 4 full paragraphs. End your response mid-article after the third H2 section with the text: [CONTINUE_HERE]. Do not write the actionable steps or CTAs yet.';
+      const part1 = await callAPI(sys, part1Prompt, 6000, d.pillarDoc);
+
+      setStatus('gen-status','run','Generating second half of post...');
+      const part2Prompt = `You are continuing a blog post for Zareni Wellness. Here is the first half that was already written:
+
+${part1.replace('[CONTINUE_HERE]','')}
+
+Now continue the post from where it left off. Write:
+- One more H2 section with 4 paragraphs on a new angle related to the topic
+- The actionable steps H2 section with 6 to 8 bullet points
+- Toolkit mention (2 sentences, link to https://shop.zareniwellness.com/collections/digital-wellness-toolkits)
+- Kit opt-in on its own line with blank lines above and below: [convertkit form=9245579]
+- Scan session (3 sentences, link: [book a bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session))
+- Warm closing paragraph that closes the emotional thread from the opening hook
+
+Then output the Yoast SEO block:
+Yoast Focus Keyphrase: ${d.keyword}
+Yoast SEO Title: [title | Zareni Wellness] under 60 characters
+Yoast Meta Description: [maximum 155 characters with keyword]
+Yoast Slug: [keyword-led-slug-with-hyphens]
+Yoast Cornerstone Content: No
+Yoast Canonical URL: leave blank
+
+All brand rules apply. First person only. No dashes. No bold body text. No healing or coping. Contractions throughout.`;
+
+      const part2 = await callAPI(sys, part2Prompt, 6000, '');
+      out = part1.replace('[CONTINUE_HERE]','').trim() + '\n\n' + part2.trim();
+    } else {
+      out = await callAPI(sys, buildUserPrompt(wf,d), 12000, d.pillarDoc);
+    }
+
     lastOut=out;lastKW=d.keyword;lastTitle=d.title;lastPostId=d.postId;
     const outEl=document.getElementById('gen-out');
     outEl.innerText=out;
