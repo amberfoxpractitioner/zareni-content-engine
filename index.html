@@ -1046,13 +1046,22 @@ async function generate(){
 
 ${part1.replace('[CONTINUE_HERE]','')}
 
-Now continue the post from where it left off. Write:
-- One more H2 section with 4 paragraphs on a new angle related to the topic
-- The actionable steps H2 section with 6 to 8 bullet points
-- Toolkit mention (2 sentences, link to https://shop.zareniwellness.com/collections/digital-wellness-toolkits)
-- Kit opt-in on its own line with blank lines above and below: [convertkit form=9245579]
-- Scan session (3 sentences, link: [book a bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session))
-- Warm closing paragraph that closes the emotional thread from the opening hook
+Continue the post from where it left off. You must write ALL of the following in order. Do not skip any section.
+
+SECTION A - Write a full H2 section on a new angle related to the topic. This section must have exactly 4 paragraphs of 3 to 4 sentences each. This section should be approximately 250 to 300 words.
+
+SECTION B - Write another full H2 section exploring a different dimension of the topic. This section must also have exactly 4 paragraphs of 3 to 4 sentences each. This section should be approximately 250 to 300 words.
+
+SECTION C - Write the actionable steps H2 section with a heading like "What You Can Do Right Now" or "Steps to Start Supporting Your Body Today." Include 6 to 8 bullet points. Each bullet is one complete actionable step the reader can take herself. Bio resonance can be one option but not the first or only one.
+
+SECTION D - Toolkit mention. Two sentences. Generic. Link to https://shop.zareniwellness.com/collections/digital-wellness-toolkits using anchor text. Never use the word healing.
+
+SECTION E - Kit opt-in on its own line with blank lines above and below:
+[convertkit form=9245579]
+
+SECTION F - Scan session. Three sentences. Warm invitation. Link: [book a bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session)
+
+SECTION G - Warm closing paragraph of 3 to 4 sentences. Closes the emotional thread from the opening hook. Never sells anything.
 
 Then output the Yoast SEO block:
 Yoast Focus Keyphrase: ${d.keyword}
@@ -1062,7 +1071,7 @@ Yoast Slug: [keyword-led-slug-with-hyphens]
 Yoast Cornerstone Content: No
 Yoast Canonical URL: leave blank
 
-All brand rules apply. First person only. No dashes. No bold body text. No healing or coping. Contractions throughout.`;
+All brand rules apply. First person only. No dashes. No bold body text. No healing or coping. Contractions throughout. Write all sections completely before stopping.`;
 
       const part2 = await callAPI(sys, part2Prompt, 6000, '');
       out = part1.replace('[CONTINUE_HERE]','').trim() + '\n\n' + part2.trim();
