@@ -534,12 +534,24 @@ STRUCTURE:
 - Three internal links, first to pillar cornerstone, always anchor text, never raw URLs.
 - One external link to a credible source, always anchor text, never raw URLs.
 
-MANDATORY CTA SEQUENCE - place roughly two thirds of the way through, never at the end:
-1. Actionable steps section with H2 heading and bullet points. Concise. Practical. Specific. Steps must be things the reader can do herself right now. Never make bio resonance scanning the first step. Start with foundational things like sleep, nutrition, stress reduction, testing to ask her doctor about. Bio resonance can appear naturally as one option among several, never as the primary recommendation.
-2. Toolkit mention immediately after. Two sentences. Generic, never pillar specific. Example: "If you want a guided place to start, I have put together a collection of digital toolkits in the Zareni Wellness shop that walk you through the root cause approach in detail." Link the words "digital toolkits" or "Zareni Wellness shop" to https://shop.zareniwellness.com/collections/digital-wellness-toolkits. Never use the word healing. Never reference a specific toolkit by name or pillar.
-3. Kit opt-in immediately after on its own line with blank lines above and below: [convertkit form=9245579]
-4. Scan session immediately after. Three sentences. Warm invitation. Anchor text: [book a bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session)
-5. Closing paragraph immediately after. Warm. Human. Closes the emotional thread from the hook. Never sells anything. This is the final element of the post.
+MANDATORY CTA SEQUENCE - this is the most important structural rule after voice:
+The post has two parts. Part one is educational content, roughly 1200 to 1400 words. Part two starts with the actionable steps section and ends with the closing paragraph. Do not put all the educational content first and then stack the CTAs at the end. The CTAs are woven into the middle of the post.
+
+After you write your third or fourth H2 section, stop the educational content and begin the CTA sequence:
+
+1. H2 heading for actionable steps. Something like "What You Can Do Right Now" or "Steps to Start Supporting Your Body." Bullet points only here. Each bullet is its own line. Concise. Practical. Specific. Steps the reader can do herself. Start with sleep, nutrition, stress, testing. Bio resonance can appear as one option, never the first or only option.
+
+2. Toolkit mention immediately after the bullet list. Two sentences maximum. Generic, never pillar specific. Link the words "digital toolkits" or "Zareni Wellness shop" to https://shop.zareniwellness.com/collections/digital-wellness-toolkits. Never use the word healing. Never reference a specific toolkit by name.
+
+3. Kit opt-in on its own line with a blank line above and a blank line below:
+
+[convertkit form=9245579]
+
+4. Scan session. Three sentences. Warm invitation not a pitch. Share what Amber sees in her practice. End with anchor text: [book a bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session)
+
+5. Closing paragraph. Warm. Human. One paragraph. Closes the emotional thread from the hook. Never sells anything. This is the last thing in the post.
+
+After the closing paragraph, output the Yoast block. Nothing else.
 
 OUTPUT FORMAT:
 Write the full post, then the Yoast SEO block on a new line:
@@ -1084,10 +1096,16 @@ function markdownToHTML(text){
     if(!block)return '';
     if(block.startsWith('<h2>')||block.startsWith('<h3>')||block.startsWith('<h4>')||block.startsWith('<hr>'))return block;
     if(block.startsWith('[convertkit'))return '\n'+block+'\n';
-    if(block.match(/^[\-\*] /m)){
+    if(block.match(/^[\-\*•] /m)){
       const items=block.split('\n').filter(l=>l.trim());
-      const listItems=items.map(item=>item.replace(/^[\-\*] /,'<li>').trim()+'</li>').join('');
-      return '<ul>'+listItems+'</ul>';
+      const listItems=items.map(item=>item.replace(/^[\-\*•] /,'<li>').trim()+'</li>').join('\n');
+      return '<ul>\n'+listItems+'\n</ul>';
+    }
+    // Also handle lines that start with bullet character directly
+    if(block.match(/^• /m)){
+      const items=block.split('\n').filter(l=>l.trim());
+      const listItems=items.map(item=>item.replace(/^• /,'<li>').trim()+'</li>').join('\n');
+      return '<ul>\n'+listItems+'\n</ul>';
     }
     return '<p>'+block.replace(/\n/g,' ')+'</p>';
   }).filter(Boolean).join('\n');
