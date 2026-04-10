@@ -96,6 +96,7 @@ textarea{resize:vertical;line-height:1.6}
   <div class="tab" onclick="switchTab('keywords',this)">Keywords</div>
   <div class="tab" onclick="switchTab('competitors',this)">Competitors</div>
   <div class="tab" onclick="switchTab('rules',this)">Rules</div>
+  <div class="tab" onclick="switchTab('titles',this)">Titles &amp; Pins</div>
   <div class="tab" onclick="switchTab('knowledge',this)">Knowledge Base</div>
   <div class="tab" onclick="switchTab('settings',this)">Settings</div>
 </div>
@@ -342,6 +343,48 @@ textarea{resize:vertical;line-height:1.6}
   </div>
 </div>
 
+<div id="p-titles" class="panel">
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Titles &amp; Pins Generator</div>
+      <span class="lbl">Post Topic</span>
+      <input type="text" id="tp-topic" placeholder="e.g. EBV reactivation and chronic fatigue">
+      <span class="lbl">Focus Keyword</span>
+      <input type="text" id="tp-keyword" placeholder="e.g. EBV reactivation symptoms">
+      <span class="lbl">Pillar</span>
+      <input type="text" id="tp-pillar" placeholder="e.g. Epstein Barr Virus">
+      <span class="lbl">Reader Situation (optional)</span>
+      <textarea id="tp-situation" rows="3" placeholder="e.g. Exhausted mom told her labs are normal but feels terrible. Two years of fatigue and brain fog."></textarea>
+      <div class="btn-row">
+        <button class="btn btn-sage" id="tp-btn" onclick="runTitles()">Generate</button>
+      </div>
+    </div>
+    <div>
+      <div id="tp-status" class="status s-idle"><span>Ready</span></div>
+      <div class="card">
+        <div class="card-title">SEO Post Titles <button class="btn btn-outline btn-sm" onclick="copyEl('tp-seo-out')" style="margin-left:auto">Copy</button></div>
+        <div id="tp-seo-out" class="output-box" style="min-height:100px"><span class="placeholder">10 SEO post title options will appear here.</span></div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <div class="card-title">Pinterest Pin Titles <button class="btn btn-outline btn-sm" onclick="copyEl('tp-pin-titles-out')" style="margin-left:auto">Copy</button></div>
+        <div id="tp-pin-titles-out" class="output-box" style="min-height:100px"><span class="placeholder">5 Pinterest pin title options will appear here.</span></div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <div class="card-title">Pin Descriptions <button class="btn btn-outline btn-sm" onclick="copyEl('tp-pin-desc-out')" style="margin-left:auto">Copy</button></div>
+        <div id="tp-pin-desc-out" class="output-box" style="min-height:100px"><span class="placeholder">5 pin descriptions will appear here.</span></div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <div class="card-title">MidJourney Pin Image Prompts <button class="btn btn-outline btn-sm" onclick="copyEl('tp-pin-img-out')" style="margin-left:auto">Copy</button></div>
+        <div id="tp-pin-img-out" class="output-box" style="min-height:100px"><span class="placeholder">5 MidJourney prompts for pin images will appear here.</span></div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <div class="card-title">Featured Blog Image <button class="btn btn-outline btn-sm" onclick="copyEl('tp-feat-out')" style="margin-left:auto">Copy</button></div>
+        <div id="tp-feat-out" class="output-box" style="min-height:100px"><span class="placeholder">MidJourney prompt, file name, and alt text for featured blog image will appear here.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="p-knowledge" class="panel">
   <div class="notice">All knowledge base content is injected into every API call automatically. Core documents are always pulled. Pillar documents are selected per run in the Generator tab.</div>
   <div class="grid2-eq">
@@ -538,7 +581,7 @@ WRITING RULES:
 - No COVID by name.
 - Structure and function language only.
 - Never use: before we close, it is worth noting, it is important to understand, in conclusion, as we have explored, delve.
-- Target 2000 to 2200 words. Every sentence earns its place. If the post is under 2000 words, you have not gone deep enough. Each H2 section should have at least 3 to 4 solid paragraphs of substantive content.
+- Target 2000 to 2200 words. Count your words before outputting. If you are under 2000 words, go back and expand your sections before finishing. Every H2 section must have a minimum of 4 paragraphs. Each paragraph is 3 to 4 sentences. If a section feels complete at 2 paragraphs, ask yourself what question the reader still has about this topic and answer it. Do not pad with repetition. Expand with substance.
 
 BULLET POINTS:
 Use bullet points ONLY in the actionable steps section. Nowhere else in the post. Never use bullets to break up explanatory content. Each bullet point in the actionable steps must be its own complete thought on its own line, not run together.
@@ -1392,6 +1435,81 @@ function showWFRules(wf){
 function regenerate(){
   document.getElementById('polish-input').value='';
   generate();
+}
+
+function copyEl(id){
+  const el=document.getElementById(id);
+  const text=el.innerText||el.textContent||'';
+  if(!text||text.includes('will appear here')){alert('Nothing to copy yet.');return;}
+  navigator.clipboard.writeText(text).then(()=>alert('Copied to clipboard.')).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    alert('Copied to clipboard.');
+  });
+}
+
+function extractSection(text,startLabel,endLabel){
+  const start=text.indexOf(startLabel);
+  if(start===-1)return '';
+  const contentStart=text.indexOf('\n',start)+1;
+  if(endLabel){
+    const end=text.indexOf(endLabel,contentStart);
+    return end>-1?text.substring(contentStart,end).trim():text.substring(contentStart).trim();
+  }
+  return text.substring(contentStart).trim();
+}
+
+async function runTitles(){
+  const topic=document.getElementById('tp-topic').value.trim();
+  const keyword=document.getElementById('tp-keyword').value.trim();
+  const pillar=document.getElementById('tp-pillar').value.trim();
+  const situation=document.getElementById('tp-situation').value.trim();
+  if(!topic||!keyword){alert('Post Topic and Focus Keyword are required.');return;}
+  setStatus('tp-status','run','Generating titles, pins, and image prompts...');
+  document.getElementById('tp-btn').disabled=true;
+
+  const sys=`You are a content strategist for Zareni Wellness, a root cause wellness brand for people with complex chronic illness who have been failed by conventional medicine. The brand voice is warm, direct, and empathetic. The reader is exhausted, dismissed, and still searching for answers.
+
+ZARENI WELLNESS BRAND AESTHETIC FOR MIDJOURNEY:
+Colors: sage green #8fa77a, cream #F9F7F2, deep olive #4E4B3A.
+Style: clean, warm, organic, editorial wellness. Soft natural light, botanical elements, muted earth tones. Never stock-photo generic. Never cold or clinical.`;
+
+  const user=`Generate all of the following for a Zareni Wellness blog post. Output each section with exactly the label shown.
+
+POST TOPIC: ${topic}
+FOCUS KEYWORD: ${keyword}
+PILLAR: ${pillar}
+READER SITUATION: ${situation||'Exhausted woman with chronic illness told her labs are normal but feels terrible.'}
+
+SEO POST TITLES:
+10 SEO optimized blog post title options. Include the focus keyword naturally. Under 60 characters each. Compelling and click worthy. Speak to the reader's situation. Number each one.
+
+PINTEREST PIN TITLES:
+5 Pinterest pin title options. Curiosity driven, benefit led, stops the scroll. Speaks to a specific pain point or promises a specific insight. Sounds like a trusted friend, not a medical article. Under 100 characters each. Number each one.
+
+PIN DESCRIPTIONS:
+5 pin descriptions, one matching each pin title. 2 to 3 sentences each. Include the focus keyword naturally. End with a soft call to action. Number each one to match pin titles.
+
+MIDJOURNEY PIN IMAGE PROMPTS:
+5 MidJourney image prompts, one per pin. Each creates a visually compelling image matching the pin angle and mood. Use Zareni Wellness brand aesthetic. No text in image. No generic stock photo style. Include photographic or illustration style, mood, composition, key visual elements. Start each with /imagine. Number each one.
+
+FEATURED BLOG IMAGE:
+One MidJourney prompt for the featured blog post image representing the overall topic. Same brand aesthetic. No text in image. Start with /imagine.
+Image file name: [keyword-led-descriptive-file-name.jpg]
+Image alt text: [descriptive alt text with focus keyword, under 125 characters]`;
+
+  try{
+    const out=await callAPI(sys,user,3000,'');
+    document.getElementById('tp-seo-out').textContent=extractSection(out,'SEO POST TITLES:','PINTEREST PIN TITLES:');
+    document.getElementById('tp-pin-titles-out').textContent=extractSection(out,'PINTEREST PIN TITLES:','PIN DESCRIPTIONS:');
+    document.getElementById('tp-pin-desc-out').textContent=extractSection(out,'PIN DESCRIPTIONS:','MIDJOURNEY PIN IMAGE PROMPTS:');
+    document.getElementById('tp-pin-img-out').textContent=extractSection(out,'MIDJOURNEY PIN IMAGE PROMPTS:','FEATURED BLOG IMAGE:');
+    document.getElementById('tp-feat-out').textContent=extractSection(out,'FEATURED BLOG IMAGE:',null);
+    setStatus('tp-status','ok','Generation complete');
+  }catch(e){
+    setStatus('tp-status','err','Error: '+e.message);
+  }
+  document.getElementById('tp-btn').disabled=false;
 }
 
 function updateWordCount(text){
