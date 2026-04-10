@@ -1078,8 +1078,7 @@ function markdownToHTML(text){
     }
     return '<p>'+block.replace(/\n/g,' ')+'</p>';
   }).filter(Boolean).join('\n');
-  // Wrap in Gutenberg HTML block to prevent Classic editor
-  return '<!-- wp:html -->\n' + html + '\n<!-- /wp:html -->';
+  return html;
 }
 
 function extractYoastFields(text){
