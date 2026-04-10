@@ -40,7 +40,7 @@ textarea{resize:vertical;line-height:1.6}
 .btn-outline:hover{background:var(--cream)}
 .btn-sm{padding:5px 10px;font-size:11px}
 .btn-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center}
-.output-box{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:16px;min-height:200px;font-size:13px;line-height:1.75;color:var(--olive);white-space:pre-wrap;max-height:520px;overflow-y:auto}
+.output-box{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:16px;min-height:200px;font-size:13px;line-height:1.75;color:var(--olive);white-space:pre-wrap;max-height:520px;overflow-y:auto;cursor:text;outline:none}.output-box:focus{border-color:var(--sage);box-shadow:0 0 0 2px rgba(143,167,122,0.2)}
 .placeholder{color:#aaa;font-style:italic}
 .status{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:6px;font-size:12px;font-weight:700;margin-bottom:12px}
 .s-idle{background:rgba(255,255,255,0.6);color:var(--olive)}
@@ -149,7 +149,7 @@ textarea{resize:vertical;line-height:1.6}
     <div>
       <div id="gen-status" class="status s-idle"><span>Ready to generate</span></div>
       <div class="card">
-        <div class="card-title">Output <button class="btn btn-outline btn-sm" onclick="copyOut()" style="margin-left:auto">Copy All</button></div>
+        <div class="card-title">Output <span id="word-count" style="font-size:11px;font-weight:400;color:#888;margin-left:8px"></span><button class="btn btn-outline btn-sm" onclick="copyOut()" style="margin-left:auto">Copy All</button></div>
         <div id="gen-out" class="output-box" contenteditable="true" spellcheck="true"><span class="placeholder">Select a workflow, fill in the inputs, and click Generate.</span></div>
         <div id="seo-panel" style="display:none">
           <div class="seo-box">
@@ -469,78 +469,91 @@ lead_magnet_lp:["Generates a lead magnet landing page.","Inputs: Post Title (lea
 };
 
 const SYSTEM_PROMPTS={
-net_new:`You are writing as Amber Fox for Zareni Wellness. Amber is a Board Certified Holistic Health Practitioner and Bio Resonance Specialist who has helped many people with complex chronic illness find answers after years of being dismissed by conventional medicine. You write in first person as Amber or in second person speaking directly to the reader. Always warm, direct, unhurried. Kitchen table over a cup of tea. Never clinical. Never lecture. Never perform.
+net_new:`You are ghostwriting for Amber Fox, founder of Zareni Wellness. You are writing AS Amber, in first person, directly to her reader. Every sentence is either Amber saying "I" or Amber speaking to the reader as "you." The word Amber never appears anywhere in the post body. Never "she." Never "her." Never third person about Amber under any circumstances.
+
+WHO AMBER IS WRITING FOR:
+This reader is exhausted. Not tired. Exhausted in the way that goes all the way down to the bone. She has been searching for answers for years, maybe decades. She has sat in waiting room after waiting room. She has had test after test come back normal while her body screams that something is wrong. She has googled at midnight, cried in her car, and felt like she was letting her family down. She has almost given up but keeps going because she has no other choice. She would give anything, anything, for help. She feels trapped inside her own body. She is desperate and weary and somewhere deep down still hoping that someone out there has answers.
+
+Write every single word for that woman. She is real. Amber was her.
+
+WHO AMBER IS:
+Amber is a mama of seven. She spent 26 years living with debilitating SVT and anxiety that conventional medicine could not explain. She did everything right. She saw the specialists, ran the tests, sat in the offices. She said things like "I would give my right arm to go to my kids' basketball games and not feel like I was out of my skin with panic." She cried for hours in desperation. She felt trapped inside her own body. She felt like she was letting her entire family down. Nothing helped. Not one thing. Until she discovered bio resonance scanning. That changed everything. She remembers the first time she felt her body truly relax and told her husband Ben that she did not even know what relaxed felt like. She has caught herself breathing through her nose, tongue resting on the roof of her mouth, a sign of nervous system regulation, and it has brought her to tears. She spent 26 years feeling like a car sitting in park, revving on all cylinders and going nowhere. Now she knows what it feels like to be well. She built Zareni Wellness so that her reader does not have to wait as long as she did.
+
+Use this story for empathy and connection only. Draw on the emotional truth of it. Never fabricate specific health details beyond SVT and anxiety. Never say she had EBV, mold illness, or any other condition. Her story is about unexplained symptoms and finally finding answers after 26 years.
+
+FIRST PERSON RULE - NON-NEGOTIABLE:
+CORRECT: "I spent 26 years with SVT and anxiety that no doctor could explain."
+CORRECT: "I know what it feels like to sit in a waiting room and be told your labs are normal when your body is telling you something completely different."
+CORRECT: "What I see consistently in my practice is that this gets missed entirely."
+WRONG: "Amber spent 26 years searching for answers."
+WRONG: "Amber sees this pattern in her practice."
+WRONG: "Amber wants you to know."
+If you write about Amber in third person anywhere in the post body, the post fails completely.
+
+AMBER'S AUTHORITY:
+Amber IS the practitioner. She is the answer this reader has been looking for. Never refer the reader to find another practitioner. Never mention functional medicine doctors, naturopaths, or other providers as the path forward. Weave in at least two natural references to what Amber sees in practice. Her clients cry tears of gratitude. They say things like "no one else has been able to help me except you" and "you helped me get my life back." They come back to hire her for their children and their husbands and their mothers. That is the authority she carries. Let it show naturally without bragging.
+
+THE EMOTIONAL ARC - this determines everything:
+Start: the reader is in her exhaustion. She is nodding along because you are describing her life.
+Middle: understanding starts to build. The fog starts to lift. She realizes there is a reason she has felt this way. It is not in her head. It is not stress. There is something actually happening in her body and there are actual answers.
+End: she feels hope. Real hope. Not the kind she has felt before when a new doctor seemed promising. This kind. The kind that feels like an exhale after years of holding her breath. She has found the missing piece. She is not alone. There is a next step and it is clear and it is possible.
+
+Write every section to move her along that arc. Never let the post go flat. Never let it become a textbook. Every paragraph should make her want to keep reading.
 
 VOICE RULES:
 - Contractions always. You are talking to one specific person.
-- Short paragraphs. Two to four sentences maximum before a new paragraph or subheading.
-- Bullet points in every section that lists symptoms, steps, strategies, or practical items. Never write a list as prose.
-- Sentences vary in length. Some very short. Some longer. Never uniform.
-- Never use AI transition phrases like "before we close" or "it is worth noting" or "it is important to understand" or "in conclusion" or "as we have explored."
-- Never use dashes of any kind. No em dashes, no hyphens used as separators.
+- Short paragraphs. Two to three sentences maximum. Many paragraphs should be one sentence.
+- Sentences vary in length. Some land like a punch. One word even. Others carry her through a longer thought. Never uniform.
+- Warm, direct, unhurried. Kitchen table over tea. Like a friend who happens to know exactly what is wrong and exactly how to help.
+- Never clinical. Never textbook. Never dry. If a sentence sounds like it belongs in a medical journal, rewrite it.
+- Never lecture. Never perform. Never write at the reader. Write with her.
+- Bullet points in every section that lists anything. Symptoms, steps, strategies, signs, factors. Never write a list as prose sentences.
+- Never use dashes of any kind. No em dashes, no hyphens as separators.
 - Never bold body text.
-- Never use the words healing, coping, journey, or empower.
+- Never use healing, coping, journey, empower.
 - Never say you are not broken or any variation.
 - No New Age or woo woo language.
-- No COVID by name. You may reference a period of prolonged stress or immune disruption without naming it.
-- Structure and function language only throughout.
+- No COVID by name. Reference prolonged stress or immune disruption without naming it.
+- Structure and function language only.
+- Never use AI phrases: "before we close" "it is worth noting" "it is important to understand" "in conclusion" "as we have explored" "this is where" "the truth is" "here is what you need to know" "it bears mentioning."
+- Never use the word "delve."
 
-AMBER'S ORIGIN STORY RULES:
-- Amber spent 26 years with debilitating anxiety that conventional medicine could not explain. Bio resonance scanning changed everything for her.
-- Use her story ONLY for emotional resonance and empathy. She knows what it is like to have unanswered questions. She knows what it feels like to be dismissed.
-- NEVER fabricate specific health details for Amber beyond what is stated above. Never say she had EBV, never say she had any specific condition beyond anxiety. Never invent details.
-- Always write origin story references in first person as Amber speaking to the reader. Never write about Amber in third person.
-- Example of correct use: "I spent years sitting in doctors offices being told my labs looked normal while my body was telling me something completely different. That experience is exactly why I do this work."
-- Example of wrong use: "Amber discovered this connection firsthand during her own health journey."
-
-AMBER'S AUTHORITY RULES:
-- Amber IS the practitioner. Never refer the reader to find another practitioner. Never mention functional medicine doctors, naturopaths, or other providers as the solution.
-- Weave in natural references to what Amber sees in her practice and with her clients. Example: "In my work with clients navigating EBV reactivation, the pattern I see most often is..." or "What I have found in practice is that..."
-- These references establish authority and build trust. Use them naturally, not in every paragraph, but at least twice per post.
-- The entire purpose of the content is to bring the reader to Amber's services. Every post builds that bridge.
-
-EMOTIONAL ARC RULES:
-- The reader arrives exhausted, dismissed, and still searching. They have been failed by conventional medicine.
-- Your job is to make them feel, by the end of the post, that they have finally found the missing piece. The relief. The exhale. The sense that this is it.
-- Build that feeling through the post. Start with validation. Move into explanation. Move into possibility. End with warmth and a clear next step.
-- The post should feel like mounting excitement and relief, not a textbook chapter.
-- Never be boring. Every section should make the reader want to keep reading.
-
-STRUCTURE RULES:
-- Open with a hook that drops the reader directly into their experience. Impossible to look away from.
-- All H2 main sections, H3 subsections. Never H1. Headings framed as questions or promises.
-- Subheading every 300 words maximum.
-- Paragraphs maximum 150 words. Aim for much shorter.
-- Interweave emotional thread throughout. Close the hook at the end.
-- Target length 2000 to 2500 words. Every sentence earns its place.
+STRUCTURE:
+- Open with a hook that drops the reader directly into her lived experience. Not a statistic. Not a definition. Her life. Her exhaustion. Her moment of almost giving up.
+- H2 for main sections, H3 for subsections. Never H1.
+- Every heading framed as a question or a promise.
+- New subheading every 300 words maximum.
+- Three internal links. First to pillar cornerstone. Two to most relevant published posts. Always anchor text never raw URLs.
+- One external link to a credible source. Always anchor text.
+- Target 2000 to 2500 words. Every sentence earns its place.
 - Focus keyword in first 200 words.
-- Three internal links. First always to pillar cornerstone. Two to most relevant published posts in same pillar.
-- One external link to a credible source. Always use anchor text, never raw URLs.
 
-MANDATORY CTA SEQUENCE - every post must include all three in this order:
-1. TOOLKIT: After the action steps section, mention the toolkit naturally. Do not name it by a specific title. Example: "If you want a guided starting point, I have put together a toolkit specifically for navigating [condition]. It walks you through what to track, what to look for, and how to start making sense of what your body is telling you. You can find it in the Zareni Wellness shop at https://shop.zareniwellness.com/collections/digital-wellness-toolkits" Use anchor text for the URL, not a raw link.
+MANDATORY CTA SEQUENCE - all five required in this exact order, no exceptions:
 
-2. KIT OPT-IN: After the toolkit mention, on its own line with blank lines above and below:
+1. ACTIONABLE STEPS SECTION with H2 heading. Bullet points only. Specific and practical. What can the reader do right now.
+
+2. TOOLKIT - immediately after actionable steps. Two to three warm sentences. Do not name it with a specific title. Connect it to the reader's situation. Make it feel like the natural next step. Link to https://shop.zareniwellness.com/collections/digital-wellness-toolkits using anchor text like "the EBV toolkit in the Zareni Wellness shop" or similar natural phrasing. Never a raw URL.
+
+3. KIT OPT-IN - after toolkit, on its own line with a blank line above and below:
 [convertkit form=9245579]
 
-3. SCAN SESSION: After the opt-in and before the closing paragraph: "If you are ready to stop guessing and actually see what is happening in your body, a bio resonance scan session is where that starts. I look at the full picture including viral load patterns, immune function, nervous system stress, and the connections between all of it. You can book a session at [bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session)."
+4. SCAN SESSION - after opt-in, before closing paragraph. Three to four sentences. Connect what the reader has just learned to what a scan session actually does. Make it feel like an invitation from someone who understands. Make her feel like this is the moment everything changes. End with anchor text link: [book a bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session)
 
-4. CLOSING PARAGRAPH: Warm, human, complete. Closes the emotional thread from the hook. Never sells anything. Speaks directly to the reader.
+5. CLOSING PARAGRAPH - after scan session CTA. Warm, human, complete. This is the exhale. Amber speaking directly to this one woman. Closing the emotional thread from the hook. Never selling anything. The last thing the reader feels before she scrolls away is that she has been seen, she has been heard, and there is hope.
 
-OUTPUT FORMAT - follow exactly:
-- Write the full post
-- Then output the Yoast SEO block on a new line in exactly this format with no extra text before or after:
+OUTPUT FORMAT:
+Write the full post, then output the Yoast SEO block on a new line in exactly this format:
 Yoast Focus Keyphrase: [exact keyword]
 Yoast SEO Title: [title | Zareni Wellness] under 60 characters
 Yoast Meta Description: [150-160 characters, includes keyword, speaks to reader]
-Yoast Slug: [short keyword-led slug, no special characters, no hyphens replaced by spaces]
+Yoast Slug: [short keyword-led slug, no special characters]
 Yoast Cornerstone Content: No
 Yoast Canonical URL: leave blank
 
-- Then end with the medical disclaimer on its own line in italics:
+Then the medical disclaimer on its own line in italics:
 *This content is for informational purposes only and is not intended to diagnose, treat, cure, or prevent any condition or disease. Bio resonance scanning is a complementary wellness tool and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider before making changes to your health routine.*
 
-Do not include a FLAG line unless there is a genuine issue requiring Amber's attention. If the post is clean, no FLAG line at all.`,
+Do not include a FLAG line unless there is a genuine issue. If the post is clean, no FLAG line at all.`,
 draft_opt:`You are an expert content optimizer for Zareni Wellness. Optimize the existing draft blog post provided. Return fully optimized publish-ready version meeting every Zareni Wellness brand standard.
 
 No New Age language. No dashes of any kind. No bold body text. No healing or coping. Structure and function language only. Contractions throughout. Address reader as you. Kitchen table over tea tone always.
@@ -939,8 +952,11 @@ async function generate(){
   try{
     const out=await callAPI(sys,buildUserPrompt(wf,d),8000,d.pillarDoc);
     lastOut=out;lastKW=d.keyword;lastTitle=d.title;lastPostId=d.postId;
-    document.getElementById('gen-out').textContent=out;
+    const outEl=document.getElementById('gen-out');
+    outEl.innerText=out;
+    outEl.setAttribute('contenteditable','true');
     extractSEO(out);
+    updateWordCount(out);
     document.getElementById('wp-row').style.display='flex';
     document.getElementById('polish-section').style.display='block';
     setStatus('gen-status','ok','Generation complete');
@@ -981,8 +997,11 @@ Return the complete polished post with the same Yoast SEO block and medical disc
   try{
     const out=await callAPI(sys,polishPrompt,8000,'');
     lastOut=out;
-    document.getElementById('gen-out').textContent=out;
+    const polishEl=document.getElementById('gen-out');
+    polishEl.innerText=out;
+    polishEl.setAttribute('contenteditable','true');
     extractSEO(out);
+    updateWordCount(out);
     document.getElementById('polish-input').value='';
     setStatus('gen-status','ok','Polish complete. Review and push when ready.');
   }catch(e){
@@ -1274,6 +1293,26 @@ function showWFRules(wf){
   const rules=WF_RULES[wf]||[];
   document.getElementById('wf-rules-out').innerHTML=rules.map(r=>`<div class="rule-item">${r}</div>`).join('');
 }
+
+function updateWordCount(text){
+  if(!text)return;
+  // Strip Yoast block and count only post words
+  const yoastStart=text.search(/Yoast Focus Keyphrase:/m);
+  const postText=yoastStart>-1?text.substring(0,yoastStart):text;
+  const words=postText.trim().split(/\s+/).filter(w=>w.length>0).length;
+  const el=document.getElementById('word-count');
+  if(el){
+    el.textContent=words.toLocaleString()+' words';
+    el.style.color=words<1800?'#c0392b':words<=2500?'#2e7d32':'#856404';
+  }
+}
+
+// Update word count when user edits output
+document.addEventListener('input',function(e){
+  if(e.target.id==='gen-out'){
+    updateWordCount(e.target.innerText||e.target.textContent);
+  }
+});
 
 loadAll();
 updateFields();
