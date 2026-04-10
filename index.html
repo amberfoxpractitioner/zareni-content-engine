@@ -1185,18 +1185,40 @@ function markdownToHTML(text){
     }
     return '<p>'+block.replace(/\n/g,' ')+'</p>';
   }).filter(Boolean).join('\n');
-  // Convert HTML paragraphs to Gutenberg blocks
-  const gutenbergBlocks = html.split('\n').map(line => {
-    line = line.trim();
-    if(!line) return '';
-    if(line.startsWith('<h2>')) return '<!-- wp:heading {"level":2} -->\n' + line + '\n<!-- /wp:heading -->';
-    if(line.startsWith('<h3>')) return '<!-- wp:heading {"level":3} -->\n' + line + '\n<!-- /wp:heading -->';
-    if(line.startsWith('<ul>')) return '<!-- wp:list -->\n' + line + '\n<!-- /wp:list -->';
-    if(line.startsWith('<hr>')) return '<!-- wp:separator -->\n<hr class="wp-block-separator"/>\n<!-- /wp:separator -->';
-    if(line.includes('[convertkit')) return '<!-- wp:shortcode -->\n' + line + '\n<!-- /wp:shortcode -->';
-    if(line.startsWith('<p>')) return '<!-- wp:paragraph -->\n' + line + '\n<!-- /wp:paragraph -->';
-    return line;
+  // Convert HTML to Gutenberg blocks
+  // First reassemble ul blocks that got split across lines
+  let reassembled = html;
+  
+  // Split into blocks by double newlines
+  const rawBlocks = reassembled.split(/\n\n+/);
+  const gutenbergBlocks = rawBlocks.map(block => {
+    block = block.trim();
+    if(!block) return '';
+    
+    // Headings
+    if(block.startsWith('<h2>')) return '<!-- wp:heading {"level":2} -->\n' + block + '\n<!-- /wp:heading -->';
+    if(block.startsWith('<h3>')) return '<!-- wp:heading {"level":3} -->\n' + block + '\n<!-- /wp:heading -->';
+    
+    // Lists - wrap entire ul as one block
+    if(block.startsWith('<ul>') || block.includes('<li>')) {
+      // Make sure it's a proper ul
+      let listHtml = block;
+      if(!listHtml.startsWith('<ul>')) listHtml = '<ul>\n' + listHtml + '\n</ul>';
+      return '<!-- wp:list -->\n' + listHtml + '\n<!-- /wp:list -->';
+    }
+    
+    // Separator
+    if(block.startsWith('<hr>')) return '<!-- wp:separator -->\n<hr class="wp-block-separator"/>\n<!-- /wp:separator -->';
+    
+    // Shortcode
+    if(block.includes('[convertkit')) return '<!-- wp:shortcode -->\n' + block + '\n<!-- /wp:shortcode -->';
+    
+    // Paragraphs
+    if(block.startsWith('<p>')) return '<!-- wp:paragraph -->\n' + block + '\n<!-- /wp:paragraph -->';
+    
+    return block;
   }).filter(Boolean).join('\n\n');
+  
   return gutenbergBlocks;
 }
 
