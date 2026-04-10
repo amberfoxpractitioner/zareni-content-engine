@@ -516,21 +516,26 @@ HOOK:
 Open with a scene from her life. Not a statistic. Not a definition. Her actual experience. Make it impossible to look away.
 
 STRUCTURE:
-H2 and H3 headings only. Never H1. Every heading a question or a promise. New subheading every 300 words. Three internal links, first to pillar cornerstone, always anchor text. One external link to credible source, always anchor text. Focus keyword in first 200 words.
+- H2 and H3 headings only. Never H1. Every heading a question or a promise.
+- New subheading every 300 words.
+- Focus keyword must appear in the very first paragraph, ideally the first two sentences.
+- Three internal links, first to pillar cornerstone, always anchor text. Never raw URLs.
+- One external link to a credible source, always anchor text. Never raw URLs.
+- Focus keyword in first 200 words.
 
-MANDATORY CTA ORDER - ALL REQUIRED:
-1. Actionable steps section with bullet points
-2. Toolkit mention, two to three sentences, natural, anchor text to https://shop.zareniwellness.com/collections/digital-wellness-toolkits. Never use the word healing in this mention.
-3. Kit opt-in on its own line with blank lines above and below: [convertkit form=9245579]
-4. Scan session, three sentences, invitation not pitch, anchor text: [book a bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session)
-5. Closing paragraph. Warm. Human. Closes the hook. Never sells anything. The exhale.
+MANDATORY CTA ORDER - ALL REQUIRED. Place this sequence in the middle of the post, roughly two thirds of the way through, never at the end:
+1. Actionable steps section with H2 heading and bullet points
+2. Toolkit mention immediately after actionable steps. Two to three sentences. Natural. Anchor text to https://shop.zareniwellness.com/collections/digital-wellness-toolkits. Never use the word healing.
+3. Kit opt-in immediately after toolkit on its own line with blank lines above and below: [convertkit form=9245579]
+4. Scan session immediately after opt-in. Three sentences. Invitation not pitch. Anchor text: [book a bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session)
+5. Closing paragraph immediately after scan session. Warm. Human. Closes the hook. Never sells anything. This is the final element of the post. The exhale.
 
 OUTPUT FORMAT:
 Full post, then Yoast block on new line:
-Yoast Focus Keyphrase: [keyword]
-Yoast SEO Title: [title | Zareni Wellness] under 60 characters
-Yoast Meta Description: [150-160 characters with keyword]
-Yoast Slug: [short slug no special characters]
+Yoast Focus Keyphrase: [exact keyword as entered]
+Yoast SEO Title: [title | Zareni Wellness] under 60 characters total
+Yoast Meta Description: [maximum 155 characters, includes keyword, no more than 155 characters ever]
+Yoast Slug: [keyword-led slug with hyphens between every word, no special characters, example: ebv-reactivation-symptoms-doctors-miss]
 Yoast Cornerstone Content: No
 Yoast Canonical URL: leave blank
 
@@ -575,12 +580,12 @@ WHAT TO ADD OR STRENGTHEN:
 - Ensure actionable steps section exists with bullet points
 - Ensure all CTAs are present in the correct order
 
-MANDATORY CTA ORDER - ALL REQUIRED:
-1. Actionable steps section with bullet points
-2. Toolkit mention, two to three sentences, natural, anchor text to https://shop.zareniwellness.com/collections/digital-wellness-toolkits. Never use the word healing in this mention.
-3. Kit opt-in on its own line with blank lines above and below: [convertkit form=9245579]
-4. Scan session, three sentences, invitation not pitch, anchor text: [book a bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session)
-5. Closing paragraph. Warm. Human. Closes the hook. Never sells anything.
+MANDATORY CTA ORDER - ALL REQUIRED. Place this sequence in the middle of the post, roughly two thirds of the way through, never at the end:
+1. Actionable steps section with H2 heading and bullet points
+2. Toolkit mention immediately after actionable steps. Two to three sentences. Natural. Anchor text to https://shop.zareniwellness.com/collections/digital-wellness-toolkits. Never use the word healing.
+3. Kit opt-in immediately after toolkit on its own line with blank lines above and below: [convertkit form=9245579]
+4. Scan session immediately after opt-in. Three sentences. Invitation not pitch. Anchor text: [book a bio resonance scan session](https://shop.zareniwellness.com/products/bio-resonance-scan-session)
+5. Closing paragraph immediately after scan session. Warm. Human. Closes the hook. Never sells anything. This is the final element of the post.
 
 WRITING RULES:
 - Short paragraphs. One to three sentences. Many just one.
@@ -599,10 +604,10 @@ WRITING RULES:
 
 OUTPUT FORMAT:
 Full optimized post, then Yoast block on new line:
-Yoast Focus Keyphrase: [keyword]
-Yoast SEO Title: [title | Zareni Wellness] under 60 characters
-Yoast Meta Description: [150-160 characters with keyword]
-Yoast Slug: [short slug no special characters]
+Yoast Focus Keyphrase: [exact keyword as entered]
+Yoast SEO Title: [title | Zareni Wellness] under 60 characters total
+Yoast Meta Description: [maximum 155 characters, includes keyword, no more than 155 characters ever]
+Yoast Slug: [keyword-led slug with hyphens between every word, no special characters, example: ebv-reactivation-symptoms-doctors-miss]
 Yoast Cornerstone Content: No
 Yoast Canonical URL: leave blank
 
@@ -1078,7 +1083,19 @@ function markdownToHTML(text){
     }
     return '<p>'+block.replace(/\n/g,' ')+'</p>';
   }).filter(Boolean).join('\n');
-  return html;
+  // Convert HTML paragraphs to Gutenberg blocks
+  const gutenbergBlocks = html.split('\n').map(line => {
+    line = line.trim();
+    if(!line) return '';
+    if(line.startsWith('<h2>')) return '<!-- wp:heading {"level":2} -->\n' + line + '\n<!-- /wp:heading -->';
+    if(line.startsWith('<h3>')) return '<!-- wp:heading {"level":3} -->\n' + line + '\n<!-- /wp:heading -->';
+    if(line.startsWith('<ul>')) return '<!-- wp:list -->\n' + line + '\n<!-- /wp:list -->';
+    if(line.startsWith('<hr>')) return '<!-- wp:separator -->\n<hr class="wp-block-separator"/>\n<!-- /wp:separator -->';
+    if(line.includes('[convertkit')) return '<!-- wp:shortcode -->\n' + line + '\n<!-- /wp:shortcode -->';
+    if(line.startsWith('<p>')) return '<!-- wp:paragraph -->\n' + line + '\n<!-- /wp:paragraph -->';
+    return line;
+  }).filter(Boolean).join('\n\n');
+  return gutenbergBlocks;
 }
 
 function extractYoastFields(text){
@@ -1103,7 +1120,8 @@ async function pushWP(){
   const wf=document.getElementById('wf').value;
   const isCreate=wf==='net_new'||wf==='lead_magnet'||wf==='lead_magnet_lp';
   const yoast=extractYoastFields(lastOut);
-  const slug=(yoast.slug||lastKW).toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,'-');
+  const rawSlug=yoast.slug||lastKW;
+  const slug=rawSlug.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-');
   const htmlContent=markdownToHTML(lastOut);
   const ep=isCreate?'/wp-json/wp/v2/posts':'/wp-json/wp/v2/posts/'+lastPostId;
   const meta={
@@ -1233,7 +1251,8 @@ async function pushBatchRow(i){
   const wf=document.getElementById('batch-wf').value;
   const isCreate=wf==='net_new';
   const yoast=extractYoastFields(row.out);
-  const slug=(yoast.slug||row.keyword).toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,'-');
+  const rawSlug=yoast.slug||row.keyword;
+  const slug=rawSlug.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-');
   const htmlContent=markdownToHTML(row.out);
   const ep=isCreate?'/wp-json/wp/v2/posts':'/wp-json/wp/v2/posts/'+row.postId;
   const meta={
