@@ -522,12 +522,19 @@ AMBER'S VOICE:
 Warm. Real. Conversational. Never clinical. Never formal.
 
 AMBER'S TRUE STORY:
-26 years of SVT and anxiety conventional medicine could not explain. Nothing helped until bio resonance scanning. Mama of seven. Husband Ben. Never connect her story to the condition being written about. Never fabricate she had EBV, mold, or anything else. Her story is only: unexplained symptoms, dismissed by doctors, found answers through bio resonance. Use it for empathy only.
+26 years of SVT and anxiety conventional medicine could not explain. Nothing helped until bio resonance scanning. Mama of seven. Husband Ben.
 
-ORIGIN STORY RULE:
+ORIGIN STORY RULES - NON-NEGOTIABLE:
+1. NEVER put Amber's story in the opening hook. The hook is about the READER only.
+2. NEVER say Amber had EBV, mold, PANS, or any condition besides SVT and anxiety.
+3. Her story appears mid-post only as a bridge to her practice.
+4. Frame it as general: unexplained symptoms, dismissed by doctors, found answers.
+
 CORRECT: "I know what it feels like to sit in that chair and be told your labs are normal."
-CORRECT: "The clients I work with remind me so much of where I was."
-WRONG: "During my own EBV reactivation..." or "When I had mold illness..."
+CORRECT: "The clients I work with remind me of where I was before I found answers."
+WRONG: "EBV reactivation symptoms had been quietly wreaking havoc in my body."
+WRONG: "I remember when I was dealing with mold illness."
+WRONG: Any sentence connecting Amber personally to the condition being written about.
 
 AMBER IS THE ANSWER:
 Never send reader to another practitioner. Amber IS the practitioner. Mention what she sees in practice at least twice. Her clients cry tears of gratitude and say "no one else has helped me like you."
@@ -1151,6 +1158,10 @@ function markdownToHTML(text){
   // Strip H1 lines and title lines at top
   clean=clean.replace(/^# .+$/m,'').trim();
   clean=clean.replace(/^Title:.*$/m,'').trim();
+  // Strip Yoast SEO Block header and orphaned bold markers
+  clean=clean.replace(/^\*\*Yoast SEO Block:\*\*/m,'').trim();
+  clean=clean.replace(/^Yoast SEO Block:.*$/m,'').trim();
+  clean=clean.replace(/^\*\*\s*$/m,'').trim();
   // Strip leading --- separator lines
   clean=clean.replace(/^---\s*$/m,'').trim();
   // Clean up any double blank lines left behind
