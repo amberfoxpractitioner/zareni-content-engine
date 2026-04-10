@@ -143,7 +143,7 @@ textarea{resize:vertical;line-height:1.6}
         <div class="btn-row">
           <button class="btn btn-sage" id="gen-btn" onclick="generate()">Generate</button>
           <button class="btn btn-outline" id="regen-btn" onclick="regenerate()" style="display:none">Regenerate</button>
-          <button class="btn btn-outline" onclick="clearGen()">Clear</button>
+          <button class="btn btn-outline" onclick="clearGen()">Clear</button><button class="btn btn-outline" id="regen-btn" onclick="regenerate()" style="display:none;margin-left:8px">Regenerate</button><button class="btn btn-outline" id="regen-btn" onclick="regenerate()" style="display:none;margin-left:8px">Regenerate</button>
         </div>
       </div>
     </div>
@@ -1323,7 +1323,7 @@ function regenerate(){
   document.getElementById('polish-input').value='';
   generate();
 }
-
+function regenerate(){generate();}
 function updateWordCount(text){
   if(!text)return;
   // Strip Yoast block and count only post words
