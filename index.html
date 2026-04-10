@@ -1070,32 +1070,25 @@ async function generate(){
     if(wfIsNetNew){
       // Two-call approach for net new posts to ensure 2000+ words
       setStatus('gen-status','run','Generating first half of post...');
-      const part1Prompt = buildUserPrompt(wf,d) + '\n\nIMPORTANT: Write the opening hook paragraphs and the first THREE H2 sections only. Write each section to 4 full paragraphs. End your response mid-article after the third H2 section with the text: [CONTINUE_HERE]. Do not write the actionable steps or CTAs yet.';
+      const part1Prompt = buildUserPrompt(wf,d) + `\n\nIMPORTANT: Write ONLY the following in order, then stop:\n\n1. Opening hook: 3 paragraphs. Drop into the reader's lived experience. Focus keyword in first two sentences. Apply StoryBrand: establish the hero's external problem, internal problem, and philosophical problem.\n\n2. First H2 section: 4 paragraphs. Go deep on one angle of the topic.\n\n3. Second H2 section: 4 paragraphs. Explore a different dimension.\n\n4. Third H2 section: 4 paragraphs. Another angle, building understanding and trust.\n\n5. Actionable Steps H2 section: 6 to 8 bullet points. Steps the reader can take herself. Bio resonance as one option, never first.\n\n6. Toolkit mention: One sentence, casual, linking to https://shop.zareniwellness.com/collections/digital-wellness-toolkits using anchor text.\n\n7. Kit opt-in on its own line with blank lines above and below:\n[convertkit form=9245579]\n\n8. Scan session: One to two sentences, soft and curious, linking to https://zareniwellness.com/bio-resonance-scan/ using anchor text.\n\nThen write exactly: [CONTINUE_HERE]\n\nDo NOT write the closing paragraph or Yoast block yet. Stop after the scan session mention and [CONTINUE_HERE].`;
       const part1 = await callAPI(sys, part1Prompt, 6000, d.pillarDoc);
 
       setStatus('gen-status','run','Generating second half of post...');
-      const part2Prompt = `You are continuing a blog post for Zareni Wellness. Here is the first half that was already written:
+      const part2Prompt = `You are continuing a blog post for Zareni Wellness. The first part included the opening hook, three H2 sections, actionable steps, toolkit mention, opt-in, and scan session. Here is what was written:
 
 ${part1.replace('[CONTINUE_HERE]','')}
 
-Continue the post from where it left off. You must write ALL of the following in order. Do not skip any section.
+Now write THREE more H2 sections followed by a closing paragraph and Yoast block. This comes AFTER the opt-in and scan session already written.
 
-SECTION A - Write a full H2 section on a new angle related to the topic. This section must have exactly 4 paragraphs of 3 to 4 sentences each. This section should be approximately 250 to 300 words.
+SECTION A: New H2 section on a different angle of the topic. 4 paragraphs of 3 to 4 sentences each. Go deep.
 
-SECTION B - Write another full H2 section exploring a different dimension of the topic. This section must also have exactly 4 paragraphs of 3 to 4 sentences each. This section should be approximately 250 to 300 words.
+SECTION B: Another H2 section on yet another angle. 4 paragraphs of 3 to 4 sentences each.
 
-SECTION C - Write the actionable steps H2 section with a heading like "What You Can Do Right Now" or "Steps to Start Supporting Your Body Today." Include 6 to 8 bullet points. Each bullet is one complete actionable step the reader can take herself. Bio resonance can be one option but not the first or only one.
+SECTION C: Final H2 section bringing key insights together and pointing toward hope. 4 paragraphs of 3 to 4 sentences each. Apply StoryBrand: show what becomes possible when the reader understands and addresses this.
 
-SECTION D - Toolkit mention. One sentence. Casual, like mentioning something to a friend. The sentence should say something like you have resources in the Zareni Wellness shop that go deeper on this topic, adapted naturally to what the post is about. Link the words "Zareni Wellness shop" or "resources" to https://shop.zareniwellness.com/collections/digital-wellness-toolkits. Never say comprehensive, detailed, evidence-based, protocols, or healing.
+CLOSING PARAGRAPH: 3 to 4 sentences. Purely human. Warm. Closes the emotional thread from the opening hook. Zero selling. Zero products.
 
-SECTION E - Kit opt-in on its own line with blank lines above and below:
-[convertkit form=9245579]
-
-SECTION F - Scan session. One to two sentences. State naturally what bio resonance scanning does and how Amber uses it with clients, adapted to the topic of the post. The reader should feel curious, not sold to. Link the words "bio resonance scanning" to https://zareniwellness.com/bio-resonance-scan/. Always anchor text, never raw URL. Never say I invite you to, consider, or book.
-
-SECTION G - Warm closing paragraph. 3 to 4 sentences. Purely human. Zero selling. Zero products. Just Amber speaking directly to her reader and closing the emotional thread from the opening hook.
-
-Then output the Yoast SEO block:
+Then output:
 Yoast Focus Keyphrase: ${d.keyword}
 Yoast SEO Title: [title | Zareni Wellness] under 60 characters
 Yoast Meta Description: [maximum 155 characters with keyword]
@@ -1103,7 +1096,7 @@ Yoast Slug: [keyword-led-slug-with-hyphens]
 Yoast Cornerstone Content: No
 Yoast Canonical URL: leave blank
 
-All brand rules apply. First person only. No dashes. No bold body text. No healing or coping. Contractions throughout. Write all sections completely before stopping.`;
+First person only. No dashes. No bold body text. No healing or coping. Contractions throughout.`;
 
       const part2 = await callAPI(sys, part2Prompt, 6000, '');
       out = part1.replace('[CONTINUE_HERE]','').trim() + '\n\n' + part2.trim();
