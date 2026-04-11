@@ -96,6 +96,7 @@ textarea{resize:vertical;line-height:1.6}
   <div class="tab" onclick="switchTab('keywords',this)">Keywords</div>
   <div class="tab" onclick="switchTab('competitors',this)">Competitors</div>
   <div class="tab" onclick="switchTab('rules',this)">Rules</div>
+  <div class="tab" onclick="switchTab('history',this)">History</div>
   <div class="tab" onclick="switchTab('titles',this)">Titles &amp; Pins</div>
   <div class="tab" onclick="switchTab('knowledge',this)">Knowledge Base</div>
   <div class="tab" onclick="switchTab('settings',this)">Settings</div>
@@ -343,6 +344,14 @@ textarea{resize:vertical;line-height:1.6}
   </div>
 </div>
 
+<div id="p-history" class="panel">
+  <div class="card">
+    <div class="card-title">Post History <button class="btn btn-outline btn-sm" onclick="clearHistory()" style="margin-left:auto">Clear All</button></div>
+    <div id="history-empty" style="color:#888;font-size:13px;padding:16px 0">No posts generated yet. Your history will appear here after you generate posts.</div>
+    <div id="history-list"></div>
+  </div>
+</div>
+
 <div id="p-titles" class="panel">
   <div class="grid2">
     <div class="card">
@@ -450,9 +459,22 @@ textarea{resize:vertical;line-height:1.6}
       <input type="password" id="s-wp-pass" placeholder="xxxx xxxx xxxx xxxx xxxx xxxx">
       <span class="lbl">Author ID</span>
       <input type="text" id="s-wp-author" value="1">
+      <span class="lbl">AI Model</span>
+      <select id="s-model" style="width:100%;padding:8px;border:1px solid #c8c4b0;border-radius:6px;background:#faf9f5;color:#4E4B3A;font-family:inherit;font-size:14px;margin-bottom:8px">
+        <option value="claude-sonnet-4-20250514">Claude Sonnet (faster, ~$0.15/post)</option>
+        <option value="claude-opus-4-5">Claude Opus (smarter, ~$0.90/post)</option>
+      </select>
       <div class="btn-row">
         <button class="btn btn-sage" onclick="saveAll()">Save</button>
         <button class="btn btn-outline" onclick="testWP()">Test Connection</button>
+      </div>
+      <div id="wp-result" style="font-size:12px;margin-top:4px"></div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid #e8e4d4">
+        <div style="font-size:11px;color:#888;margin-bottom:6px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase">Analytics</div>
+        <div style="display:flex;gap:8px">
+          <a href="https://analytics.google.com" target="_blank" class="btn btn-outline btn-sm">Open GA4</a>
+          <a href="https://search.google.com/search-console" target="_blank" class="btn btn-outline btn-sm">Open GSC</a>
+        </div>
       </div>
       <div id="wp-result" style="font-size:12px;margin-top:8px"></div>
     </div>
@@ -668,7 +690,54 @@ Yoast Canonical URL: leave blank
 No medical disclaimer needed, it lives in the site template.
 
 No FLAG line unless there is a genuine issue.`,
-pp_cornerstone:`You are an expert content optimizer for Zareni Wellness. Optimize this PANS/PANDAS cornerstone post. This is a long-form comprehensive guide, not a resource page.
+draft_opt:`You are ghostwriting for Amber Fox, founder of Zareni Wellness. You are optimizing an existing draft blog post. Write AS Amber in first person. Never write about Amber in third person. Every sentence is "I" or "you."
+
+AMBER'S VOICE:
+Warm. Real. Conversational. Never clinical. Like sitting across from a trusted friend at a kitchen table with tea. Amber listens compassionately before she speaks. Reader feels heard before she feels helped.
+
+AMBER'S TRUE STORY:
+26 years of SVT and anxiety conventional medicine could not explain. Nothing helped until bio resonance scanning. Mama of seven. Husband Ben. Her origin story is a tone that runs throughout. Never fabricate she had EBV, mold, PANS, or any condition beyond SVT and anxiety.
+
+STORYBRAND: Reader is HERO. Amber is GUIDE. Three-layer problem: external symptom, internal dismissal, philosophical gap. Post content is the plan. CTAs are the obvious next step.
+
+CONTENT PHILOSOPHY: Serve so generously the next step is inevitable. Never sell.
+
+WHAT TO FIX:
+- Remove every dash of any kind
+- Remove healing, coping, journey, empower, you are not broken
+- Remove third person about Amber, rewrite as first person
+- Remove passive voice, rewrite active
+- Break sentences over 20 words. Half of all sentences under 15 words.
+- No two consecutive sentences starting with same word
+- Add H3 subheadings in any section over 300 words
+- Remove raw URLs, replace with anchor text
+- Remove AI phrases: before we close, it is worth noting, in conclusion, delve
+
+YOAST REQUIREMENTS:
+Keyword in first paragraph. Keyword minimum 8 times. Keyword in at least 4 H2 headings. SEO title under 55 characters starting with keyword ending with | Zareni Wellness. Meta description under 150 characters with keyword. Slug keyword-led with hyphens.
+
+AEO: Each H2 heading is a question. First sentence answers the heading directly.
+
+CTA HIERARCHY:
+Toolkit: one natural mid-post mention, one CTA with link to https://shop.zareniwellness.com/collections/digital-wellness-toolkits
+Scan session: one natural mid-post mention, one CTA with link to https://zareniwellness.com/bio-resonance-scan/
+Opt-in: always present mid-post: [convertkit form=9245579]
+
+OUTPUT: Full optimized post then Yoast block:
+Yoast Focus Keyphrase: [exact keyword]
+Yoast SEO Title: [under 55 characters, starts with keyword, | Zareni Wellness]
+Yoast Meta Description: [under 150 characters with keyword]
+Yoast Slug: [keyword-led-slug-with-hyphens]
+Yoast Cornerstone Content: No
+Yoast Canonical URL: leave blank`,
+pp_cornerstone:`You are ghostwriting for Amber Fox, optimizing a PANS/PANDAS cornerstone post for Zareni Wellness. This is a long-form comprehensive guide.
+AMBER'S VOICE: Warm. Real. Conversational. First person always. Never clinical. Never third person about Amber.
+AMBER'S STORY: SVT and anxiety only. 26 years. Bio resonance found answers. Mama of seven. Never fabricate other conditions.
+STORYBRAND: Reader is HERO. Amber is GUIDE. Three-layer problem. Content is the plan. CTAs are the next step.
+WRITING RULES: No dashes. No healing/coping/journey/empower. Active voice. Half of sentences under 15 words. No consecutive same-word sentence starts. No bold body text. Contractions always.
+YOAST: Keyword in first paragraph. Keyword 8+ times. Keyword in 4+ H2 headings. SEO title under 55 chars starting with keyword ending | Zareni Wellness. Meta description under 150 chars. Slug with hyphens.
+AEO: Each H2 is a question. First sentence answers it directly.
+LINKS: Toolkit https://shop.zareniwellness.com/collections/digital-wellness-toolkits. Scan https://zareniwellness.com/bio-resonance-scan/. Opt-in [convertkit form=9245579] mid-post.
 
 No dashes. Replace healing and coping. Remove you are not broken. Fix bold body text. No H1. H2 main sections, H3 subsections. PANS/PANDAS always written with the slash.
 
@@ -692,7 +761,14 @@ All H2 main, H3 sub. Headings as questions or promises. Focus keyword in first 2
 Output optimized post first. Separate Yoast SEO block. Medical disclaimer in italics.
 
 Flag: treatment claims, unpublished links, cannibalization.`,
-pp_discovery:`You are an expert content optimizer for Zareni Wellness. Optimize this PANS/PANDAS Discovery Post.
+pp_discovery:`You are ghostwriting for Amber Fox, optimizing a PANS/PANDAS Discovery Post for Zareni Wellness. Discovery posts never name the condition in the body. Symptoms and patterns only.
+AMBER'S VOICE: Warm. Real. Conversational. First person always. Never clinical. Never third person about Amber.
+AMBER'S STORY: SVT and anxiety only. 26 years. Bio resonance found answers. Mama of seven. Never fabricate other conditions.
+STORYBRAND: Reader is HERO. Amber is GUIDE. Three-layer problem. Content is the plan. CTAs are the next step.
+WRITING RULES: No dashes. No healing/coping/journey/empower. Active voice. Half of sentences under 15 words. No consecutive same-word sentence starts. No bold body text. Contractions always.
+YOAST: Keyword in first paragraph. Keyword 8+ times. Keyword in 4+ H2 headings. SEO title under 55 chars starting with keyword ending | Zareni Wellness. Meta description under 150 chars. Slug with hyphens.
+AEO: Each H2 is a question. First sentence answers it directly.
+LINKS: Toolkit https://shop.zareniwellness.com/collections/digital-wellness-toolkits. Scan https://zareniwellness.com/bio-resonance-scan/. Opt-in [convertkit form=9245579] mid-post.
 
 No dashes. Replace healing and coping. Remove you are not broken. Fix bold body text. No H1.
 
@@ -718,7 +794,14 @@ All H2 main, H3 sub. Headings as questions or promises. Focus keyword in first 2
 Output optimized post first. Separate Yoast SEO block. Medical disclaimer in italics.
 
 Flag at top: treatment claims, topic cannibalization, any discovery post violations.`,
-pp_published:`You are an expert content optimizer for Zareni Wellness. Optimize this published PANS/PANDAS pillar post.
+pp_published:`You are ghostwriting for Amber Fox, optimizing a published PANS/PANDAS pillar post for Zareni Wellness.
+AMBER'S VOICE: Warm. Real. Conversational. First person always. Never clinical. Never third person about Amber.
+AMBER'S STORY: SVT and anxiety only. 26 years. Bio resonance found answers. Mama of seven. Never fabricate other conditions.
+STORYBRAND: Reader is HERO. Amber is GUIDE. Three-layer problem. Content is the plan. CTAs are the next step.
+WRITING RULES: No dashes. No healing/coping/journey/empower. Active voice. Half of sentences under 15 words. No consecutive same-word sentence starts. No bold body text. Contractions always.
+YOAST: Keyword in first paragraph. Keyword 8+ times. Keyword in 4+ H2 headings. SEO title under 55 chars starting with keyword ending | Zareni Wellness. Meta description under 150 chars. Slug with hyphens.
+AEO: Each H2 is a question. First sentence answers it directly.
+LINKS: Toolkit https://shop.zareniwellness.com/collections/digital-wellness-toolkits. Scan https://zareniwellness.com/bio-resonance-scan/. Opt-in [convertkit form=9245579] mid-post.
 
 No dashes. Replace healing and coping. Remove you are not broken. Fix bold body text. No H1.
 
@@ -798,6 +881,7 @@ function gs(){
     wpUser:localStorage.getItem('zw_wpuser')||'amberfox',
     wpPass:localStorage.getItem('zw_wppass')||'',
     wpAuthor:localStorage.getItem('zw_wpauthor')||'1',
+    model:localStorage.getItem('zw_model')||'claude-sonnet-4-20250514',
     driveKey:localStorage.getItem('zw_drivekey')||'',
     bc:localStorage.getItem('zw_bc')||DEFAULT_BC
   };
@@ -809,6 +893,7 @@ function saveAll(){
   localStorage.setItem('zw_wpuser',document.getElementById('s-wp-user').value);
   localStorage.setItem('zw_wppass',document.getElementById('s-wp-pass').value);
   localStorage.setItem('zw_wpauthor',document.getElementById('s-wp-author').value);
+  localStorage.setItem('zw_model',document.getElementById('s-model').value);
   alert('Settings saved.');
 }
 
@@ -832,6 +917,8 @@ function loadAll(){
   document.getElementById('s-wp-user').value=s.wpUser;
   if(s.wpPass)document.getElementById('s-wp-pass').value=s.wpPass;
   document.getElementById('s-wp-author').value=s.wpAuthor;
+  const savedModel=localStorage.getItem('zw_model')||'claude-sonnet-4-20250514';
+  document.getElementById('s-model').value=savedModel;
   if(s.driveKey)document.getElementById('kb-drive-key').value=s.driveKey;
   document.getElementById('kb-brand-context').value=s.bc;
   coreDocs=JSON.parse(localStorage.getItem('zw_coredocs')||'[]');
@@ -908,7 +995,7 @@ async function callAPI(system,user,tokens,pillarDocId){
   const r=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
     headers:{'Content-Type':'application/json','x-api-key':s.api,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:tokens||12000,system:fullSystem,messages:[{role:'user',content:user}]})
+    body:JSON.stringify({model:gs().model||'claude-sonnet-4-20250514',max_tokens:tokens||12000,system:fullSystem,messages:[{role:'user',content:user}]})
   });
   if(!r.ok){const e=await r.json();throw new Error(e.error?.message||'API error '+r.status);}
   const d=await r.json();
@@ -1094,6 +1181,9 @@ BEFORE YOU OUTPUT - CHECK EVERY PARAGRAPH:
     }
 
     lastOut=out;lastKW=d.keyword;lastTitle=d.title;lastPostId=d.postId;
+    // Save to history
+    const wc = out.trim().split(/\s+/).filter(w=>w.length>0).length;
+    saveToHistory(d.title, d.keyword, d.pillar, wc, out);
     const outEl=document.getElementById('gen-out');
     outEl.innerText=out;
     outEl.setAttribute('contenteditable','true');
@@ -1454,6 +1544,90 @@ function showWFRules(wf){
   document.getElementById('wf-rules-out').innerHTML=rules.map(r=>`<div class="rule-item">${r}</div>`).join('');
 }
 
+// History functions
+function saveToHistory(title, keyword, pillar, wordCount, output){
+  try {
+    const history = JSON.parse(localStorage.getItem('zw_history')||'[]');
+    const entry = {
+      id: Date.now(),
+      date: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}),
+      title: title,
+      keyword: keyword,
+      pillar: pillar,
+      wordCount: wordCount,
+      output: output
+    };
+    history.unshift(entry);
+    // Keep last 50 posts
+    if(history.length > 50) history.pop();
+    localStorage.setItem('zw_history', JSON.stringify(history));
+    renderHistory();
+  } catch(e) { console.error('History save failed:', e); }
+}
+
+function renderHistory(){
+  const history = JSON.parse(localStorage.getItem('zw_history')||'[]');
+  const empty = document.getElementById('history-empty');
+  const list = document.getElementById('history-list');
+  if(!list) return;
+  if(history.length === 0){
+    if(empty) empty.style.display = '';
+    list.innerHTML = '';
+    return;
+  }
+  if(empty) empty.style.display = 'none';
+  list.innerHTML = history.map(entry => `
+    <div style="border:1px solid #e8e4d4;border-radius:8px;padding:12px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:start;gap:8px;flex-wrap:wrap">
+        <div>
+          <div style="font-weight:600;color:#4E4B3A;font-size:14px;margin-bottom:2px">${entry.title}</div>
+          <div style="font-size:12px;color:#888">${entry.keyword} &bull; ${entry.pillar||'No pillar'} &bull; ${entry.wordCount||'?'} words &bull; ${entry.date}</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <button class="btn btn-outline btn-sm" onclick="loadFromHistory(${entry.id})">Load</button>
+          <button class="btn btn-outline btn-sm" onclick="deleteFromHistory(${entry.id})">Delete</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function loadFromHistory(id){
+  const history = JSON.parse(localStorage.getItem('zw_history')||'[]');
+  const entry = history.find(e => e.id === id);
+  if(!entry) return;
+  lastOut = entry.output;
+  lastKW = entry.keyword;
+  lastTitle = entry.title;
+  const outEl = document.getElementById('gen-out');
+  outEl.innerText = entry.output;
+  outEl.setAttribute('contenteditable','true');
+  extractSEO(entry.output);
+  updateWordCount(entry.output);
+  document.getElementById('wp-row').style.display = 'flex';
+  document.getElementById('polish-section').style.display = 'block';
+  document.getElementById('regen-btn').style.display = 'inline-block';
+  // Switch to generator tab
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector('.tab[onclick*="generator"]').classList.add('active');
+  document.getElementById('p-generator').classList.add('active');
+  setStatus('gen-status','ok','Loaded from history. Review and push when ready.');
+}
+
+function deleteFromHistory(id){
+  const history = JSON.parse(localStorage.getItem('zw_history')||'[]');
+  const updated = history.filter(e => e.id !== id);
+  localStorage.setItem('zw_history', JSON.stringify(updated));
+  renderHistory();
+}
+
+function clearHistory(){
+  if(!confirm('Clear all post history? This cannot be undone.')) return;
+  localStorage.removeItem('zw_history');
+  renderHistory();
+}
+
 function regenerate(){
   document.getElementById('polish-input').value='';
   generate();
@@ -1557,6 +1731,7 @@ document.addEventListener('input',function(e){
 loadAll();
 updateFields();
 showWFRules('net_new');
+renderHistory();
 </script>
 </body>
 </html>
