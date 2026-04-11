@@ -1081,7 +1081,12 @@ Yoast Slug: ${d.keyword.toLowerCase().replace(/\s+/g,'-')}
 Yoast Cornerstone Content: No
 Yoast Canonical URL: leave blank
 
-TARGET: 2000 to 2200 words of post body. Count before outputting. Expand sections if under 2000.`;
+TARGET: 2000 to 2200 words of post body. Count before outputting. Expand sections if under 2000.
+
+BEFORE YOU OUTPUT - CHECK EVERY PARAGRAPH:
+1. Passive voice: Rewrite any sentence using passive voice into active voice. "The virus was found" becomes "Researchers found the virus." "You may be affected" becomes "This affects you." Target: under 10% of sentences passive.
+2. Sentence length: At least half of all sentences must be under 15 words. Read each paragraph. If three sentences in a row are long, break one into two short sentences. Short sentences land hard. Use them deliberately.
+3. If any H2 heading does not contain the focus keyword or a close variation, rewrite it to include one naturally.`;
 
       out = await callAPI(sys, netNewPrompt, 16000, d.pillarDoc);
     } else {
