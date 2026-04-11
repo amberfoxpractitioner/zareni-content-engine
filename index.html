@@ -578,7 +578,9 @@ WRONG: "This is not random." or "It is not just you."
 WRITING RULES:
 - Contractions always
 - Paragraphs 3 to 4 sentences, never one-liners
-- No two consecutive sentences start with same word
+- No two consecutive sentences start with the same word. Mix up sentence openings actively.
+- Vary sentence length deliberately. At least 40% of sentences must be under 20 words. Short punchy sentences matter. Mix them with longer ones.
+- Active voice always. Never passive voice. Not "the virus was found" but "researchers found the virus." Not "you may be affected" but "this affects you directly."
 - Bullets ONLY in actionable steps section
 - No dashes of any kind
 - No bold body text
@@ -588,25 +590,29 @@ WRITING RULES:
 - No COVID by name
 - No formal transitions: before we close, it is worth noting, in conclusion, delve
 - Structure and function language only
-- MINIMUM 2000 WORDS. Write every H2 section to at least 4 full paragraphs. Do not finish the post until you have written at least 2000 words of content.
+- MINIMUM 2000 WORDS. Write every H2 section to at least 4 full paragraphs.
 
 STRUCTURE:
 The post must have exactly this structure. Do not deviate.
 
-Opening hook: 3 paragraphs before first H2. Drop into her experience immediately. Focus keyword in first two sentences.
+Opening hook: 3 paragraphs before first H2. Drop into her experience immediately. Focus keyword in first two sentences. Use the exact focus keyword phrase naturally, not a variation.
 
-H2 Section 1: 4 paragraphs minimum. Explain the core concept in depth.
-H2 Section 2: 4 paragraphs minimum. Explore a related angle or mechanism.
-H2 Section 3: 4 paragraphs minimum. Symptoms or patterns in detail.
-H2 Section 4: 4 paragraphs minimum. Why conventional approaches miss this.
-H2 Section 5 (Actionable Steps): Bullet points only. 6 to 8 bullets.
+H2 Section 1: 4 paragraphs minimum. Use the focus keyword naturally once in this section.
+H2 Section 2: 4 paragraphs minimum. Use the focus keyword naturally once in this section.
+H2 Section 3: 4 paragraphs minimum. Use the focus keyword naturally once in this section.
+H2 Section 4: 4 paragraphs minimum. Use the focus keyword naturally once in this section.
+H2 Section 5 (Actionable Steps): Bullet points only. 6 to 8 bullets. Use the focus keyword naturally once here.
 
-After Section 5: Toolkit mention, Kit opt-in, Scan session, Closing paragraph.
+The focus keyword must appear at least 8 times total across the full post. Use it naturally, never forced. Spread it evenly across sections.
+
+After actionable steps: Toolkit mention, Kit opt-in, Scan session mention.
 
 This structure produces approximately 2000 words. Every paragraph is 3 to 4 sentences.
-H2 and H3 only, never H1, every heading a question or promise.
+H2 and H3 only, never H1, every heading a question or promise. Include the focus keyword or a close variation in at least 3 H2 headings.
 Three internal links, first to pillar cornerstone, always anchor text.
-One external link to credible source, always anchor text.
+One external link to a credible medical or research source like NIH, PubMed, CDC, or Mayo Clinic, always anchor text.
+SEO title must be under 55 characters including the brand name. Format: [Short Title] | Zareni Wellness
+Meta description must be under 155 characters. Count the characters before outputting.
 
 CTA SEQUENCE - place after third or fourth H2, not at the end:
 1. H2 heading for actionable steps with bullet points. Steps reader can do herself. Bio resonance as one option among several, never first.
@@ -1070,7 +1076,9 @@ async function generate(){
     if(wfIsNetNew){
       // Two-call approach for net new posts to ensure 2000+ words
       setStatus('gen-status','run','Generating first half of post...');
-      const part1Prompt = buildUserPrompt(wf,d) + `\n\nIMPORTANT: Write ONLY the following in order, then stop:\n\n1. Opening hook: 3 paragraphs. Drop into the reader's lived experience. Focus keyword in first two sentences. Apply StoryBrand: establish the hero's external problem, internal problem, and philosophical problem.\n\n2. First H2 section: 4 paragraphs. Go deep on one angle of the topic.\n\n3. Second H2 section: 4 paragraphs. Explore a different dimension.\n\n4. Third H2 section: 4 paragraphs. Another angle, building understanding and trust.\n\n5. Actionable Steps H2 section: 6 to 8 bullet points. Steps the reader can take herself. Bio resonance as one option, never first.\n\n6. Toolkit mention: One sentence, casual, linking to https://shop.zareniwellness.com/collections/digital-wellness-toolkits using anchor text.\n\n7. Kit opt-in on its own line with blank lines above and below:\n[convertkit form=9245579]\n\n8. Scan session: One to two sentences, soft and curious, linking to https://zareniwellness.com/bio-resonance-scan/ using anchor text.\n\nThen write exactly: [CONTINUE_HERE]\n\nDo NOT write the closing paragraph or Yoast block yet. Stop after the scan session mention and [CONTINUE_HERE].`;
+      const part1Prompt = buildUserPrompt(wf,d) + `\n\nIMPORTANT: Write ONLY the following in order, then stop:\n\n1. Opening hook: 3 paragraphs. Drop into the reader's lived experience. Focus keyword in first two sentences. Apply StoryBrand: establish the hero's external problem, internal problem, and philosophical problem.\n\n2. First H2 section: 4 paragraphs. Go deep on one angle of the topic.\n\n3. Second H2 section: 4 paragraphs. Explore a different dimension.\n\n4. Third H2 section: 4 paragraphs. Another angle, building understanding and trust.\n\n5. Actionable Steps H2 section: 6 to 8 bullet points. Steps the reader can take herself. Bio resonance as one option, never first.\n\n6. Toolkit mention: One sentence, casual, linking to https://shop.zareniwellness.com/collections/digital-wellness-toolkits using anchor text.\n\n7. Kit opt-in on its own line with blank lines above and below:\n[convertkit form=9245579]\n\n8. Scan session: One to two sentences, soft and curious, linking to https://zareniwellness.com/bio-resonance-scan/ using anchor text.\n\nThen write exactly: [CONTINUE_HERE]\n\nDo NOT write the closing paragraph or Yoast block yet. Stop after the scan session mention and [CONTINUE_HERE].
+
+EXTERNAL LINK REQUIREMENT: Somewhere in the first half of the post, include one outbound link to a credible source such as NIH, PubMed, CDC, or Mayo Clinic. Use anchor text, never a raw URL. Example: according to <a href="https://pubmed.ncbi.nlm.nih.gov">research published in PubMed</a>. This is required for SEO.`;
       const part1 = await callAPI(sys, part1Prompt, 6000, d.pillarDoc);
 
       setStatus('gen-status','run','Generating second half of post...');
