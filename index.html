@@ -603,7 +603,13 @@ H2 Section 3: 4 paragraphs minimum. Use the focus keyword naturally once in this
 H2 Section 4: 4 paragraphs minimum. Use the focus keyword naturally once in this section.
 H2 Section 5 (Actionable Steps): Bullet points only. 6 to 8 bullets. Use the focus keyword naturally once here.
 
-The focus keyword must appear at least 8 times total across the full post. Use it naturally, never forced. Spread it evenly across sections.
+KEYPHRASE DENSITY REQUIREMENT - THIS IS CRITICAL FOR SEO:
+The focus keyword must appear at least 8 times in the post body. This is not optional. Count as you write. Use the exact keyphrase naturally in:
+- The opening hook, first or second sentence
+- Once in each H2 section body text
+- Once in the actionable steps section
+- Once near the scan session mention
+If you finish a section and have not used the keyphrase, go back and add it naturally before moving on.
 
 After actionable steps: Toolkit mention, Kit opt-in, Scan session mention.
 
@@ -1086,25 +1092,23 @@ EXTERNAL LINK REQUIREMENT: Somewhere in the first half of the post, include one 
 
 ${part1.replace('[CONTINUE_HERE]','')}
 
-Now write THREE more H2 sections followed by a closing paragraph and Yoast block. This comes AFTER the opt-in and scan session already written.
+Now write exactly TWO more H2 sections followed by a closing paragraph and Yoast block. Do not write more than two H2 sections. Stop after the closing paragraph and Yoast block.
 
-SECTION A: New H2 section on a different angle of the topic. 4 paragraphs of 3 to 4 sentences each. Go deep.
+SECTION A: New H2 section on a different angle of the topic. Exactly 4 paragraphs of 3 to 4 sentences each. Use the focus keyword "${d.keyword}" naturally once in this section. Keep sentences varied in length, at least 40% under 20 words. Active voice only.
 
-SECTION B: Another H2 section on yet another angle. 4 paragraphs of 3 to 4 sentences each.
+SECTION B: Final H2 section bringing key insights together and pointing toward hope. Exactly 4 paragraphs of 3 to 4 sentences each. Use the focus keyword "${d.keyword}" naturally once in this section. Apply StoryBrand: show what becomes possible when the reader understands and addresses this.
 
-SECTION C: Final H2 section bringing key insights together and pointing toward hope. 4 paragraphs of 3 to 4 sentences each. Apply StoryBrand: show what becomes possible when the reader understands and addresses this.
+CLOSING PARAGRAPH: Exactly 3 sentences. Purely human. Warm. Closes the emotional thread from the opening hook. Zero selling. Zero products.
 
-CLOSING PARAGRAPH: 3 to 4 sentences. Purely human. Warm. Closes the emotional thread from the opening hook. Zero selling. Zero products.
-
-Then output:
+After the closing paragraph, output this exact block. Every line is required. Do not skip any line. Do not add bold or formatting:
 Yoast Focus Keyphrase: ${d.keyword}
-Yoast SEO Title: [title | Zareni Wellness] under 60 characters
-Yoast Meta Description: [maximum 155 characters with keyword]
-Yoast Slug: [keyword-led-slug-with-hyphens]
+Yoast SEO Title: [write a title under 55 characters that starts with the focus keyword and ends with | Zareni Wellness]
+Yoast Meta Description: [write a meta description under 155 characters that includes the exact phrase "${d.keyword}" and describes what the reader will learn]
+Yoast Slug: ${d.keyword.toLowerCase().replace(/\s+/g,'-')}
 Yoast Cornerstone Content: No
 Yoast Canonical URL: leave blank
 
-First person only. No dashes. No bold body text. No healing or coping. Contractions throughout.`;
+First person only. No dashes. No bold body text. No healing or coping. Contractions throughout. Stop writing after the Yoast block.`;
 
       const part2 = await callAPI(sys, part2Prompt, 6000, '');
       out = part1.replace('[CONTINUE_HERE]','').trim() + '\n\n' + part2.trim();
@@ -1232,11 +1236,13 @@ function extractYoastFields(text){
   const fields={};
   const lines=text.split(/\r?\n/);
   lines.forEach(line=>{
-    if(line.startsWith('Yoast Focus Keyphrase:'))fields.focuskw=line.substring('Yoast Focus Keyphrase:'.length).trim();
-    if(line.startsWith('Yoast SEO Title:'))fields.title=line.substring('Yoast SEO Title:'.length).trim();
-    if(line.startsWith('Yoast Meta Description:'))fields.metadesc=line.substring('Yoast Meta Description:'.length).trim();
-    if(line.startsWith('Yoast Slug:'))fields.slug=line.substring('Yoast Slug:'.length).trim();
-    if(line.startsWith('Yoast Cornerstone Content:'))fields.cornerstone=line.substring('Yoast Cornerstone Content:'.length).trim().toLowerCase()==='yes';
+    // Strip bold markers and extra formatting before parsing
+    const clean=line.replace(/\*\*/g,'').replace(/^#+\s*/,'').trim();
+    if(clean.startsWith('Yoast Focus Keyphrase:'))fields.focuskw=clean.substring('Yoast Focus Keyphrase:'.length).trim();
+    if(clean.startsWith('Yoast SEO Title:'))fields.title=clean.substring('Yoast SEO Title:'.length).trim();
+    if(clean.startsWith('Yoast Meta Description:'))fields.metadesc=clean.substring('Yoast Meta Description:'.length).trim();
+    if(clean.startsWith('Yoast Slug:'))fields.slug=clean.substring('Yoast Slug:'.length).trim();
+    if(clean.startsWith('Yoast Cornerstone Content:'))fields.cornerstone=line.substring('Yoast Cornerstone Content:'.length).trim().toLowerCase()==='yes';
   });
   return fields;
 }
