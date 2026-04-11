@@ -583,8 +583,10 @@ WRITING RULES:
 - Contractions always
 - Paragraphs 3 to 4 sentences, never one-liners
 - No two consecutive sentences start with the same word. Mix up sentence openings actively.
-- Vary sentence length deliberately. At least 40% of sentences must be under 20 words. Short punchy sentences matter. Mix them with longer ones.
-- Active voice always. Never passive voice. Not "the virus was found" but "researchers found the virus." Not "you may be affected" but "this affects you directly."
+- Vary sentence length deliberately. More than half of sentences must be under 20 words. Many sentences should be under 10 words. Short sentences land hard. Use them often.
+- Active voice always. Never passive. Not "the virus was found" but "researchers found the virus." Not "you may be affected" but "this affects you."
+- Never write three consecutive sentences starting with the same word. Check this before finishing each paragraph.
+- Add H3 subheadings inside long H2 sections to break up sections longer than 300 words.
 - Bullets ONLY in actionable steps section
 - No dashes of any kind
 - No bold body text
@@ -642,7 +644,7 @@ MANDATORY CTA ORDER - ALL REQUIRED. Place this sequence in the middle of the pos
 WRITING RULES:
 - Short paragraphs. One to three sentences. Many just one.
 - Bullet points for every list. No exceptions.
-- No dashes of any kind.
+- No dashes of any kind in post content. Slugs are the only exception and must use hyphens between words.
 - No bold body text.
 - No COVID by name.
 - Structure and function language only.
@@ -1073,8 +1075,8 @@ CLOSING PARAGRAPH: No heading. 3 to 4 sentences. Warm and human. Closes the hook
 
 YOAST BLOCK: Immediately after closing paragraph. All six lines required. No bold. No markdown:
 Yoast Focus Keyphrase: ${d.keyword}
-Yoast SEO Title: [under 55 characters, starts with focus keyword, ends with | Zareni Wellness]
-Yoast Meta Description: [under 155 characters, includes exact phrase "${d.keyword}", describes what reader learns]
+Yoast SEO Title: [MUST be under 50 characters total including | Zareni Wellness. Example: EBV Reactivation Symptoms Explained | Zareni Wellness is 51 chars - too long. Keep it short.]
+Yoast Meta Description: [MUST be under 150 characters. Count every character. Example: Learn why EBV reactivation symptoms go undiagnosed and what you can do about them. includes keyword and is under 150.]
 Yoast Slug: ${d.keyword.toLowerCase().replace(/\s+/g,'-')}
 Yoast Cornerstone Content: No
 Yoast Canonical URL: leave blank
@@ -1227,7 +1229,7 @@ async function pushWP(){
   const isCreate=wf==='net_new'||wf==='lead_magnet'||wf==='lead_magnet_lp';
   const yoast=extractYoastFields(lastOut);
   const rawSlug=yoast.slug||lastKW;
-  const slug=rawSlug.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-');
+  const slug=rawSlug.toLowerCase().replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-');
   const htmlContent=markdownToHTML(lastOut);
   const ep=isCreate?'/wp-json/wp/v2/posts':'/wp-json/wp/v2/posts/'+lastPostId;
   const meta={
@@ -1358,7 +1360,7 @@ async function pushBatchRow(i){
   const isCreate=wf==='net_new';
   const yoast=extractYoastFields(row.out);
   const rawSlug=yoast.slug||row.keyword;
-  const slug=rawSlug.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-');
+  const slug=rawSlug.toLowerCase().replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-');
   const htmlContent=markdownToHTML(row.out);
   const ep=isCreate?'/wp-json/wp/v2/posts':'/wp-json/wp/v2/posts/'+row.postId;
   const meta={
