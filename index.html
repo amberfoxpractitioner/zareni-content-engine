@@ -1189,6 +1189,8 @@ function markdownToHTML(text){
   clean=clean.replace(/^## (.+)$/gm,'<h2>$1</h2>');
   // Strip any remaining # headings (H1 safety net)
   clean=clean.replace(/^# (.+)$/gm,'');
+  // Convert markdown links to HTML links
+  clean=clean.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>');
   // Bold and italic
   clean=clean.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
   clean=clean.replace(/\*([^*\n]+)\*/g,'<em>$1</em>');
